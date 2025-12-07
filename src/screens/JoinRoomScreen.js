@@ -1,0 +1,115 @@
+import React, { useState, useContext } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import axios from 'axios';
+import API from '../config/api';
+import { RoomContext } from '../context/RoomContext';
+import socket from '../config/socket';
+// import useRoomSocket from '../hooks/useRoomSocket';
+
+export default function JoinRoomScreen({ navigation }) {
+  const {
+    setUserId,
+    setRoomId,
+    setRoomName,
+    setUserName,
+    setSongs,
+    setNowPlaying,
+    setParticipants,
+  } = useContext(RoomContext);
+  //   useRoomSocket(setSongs, setNowPlaying, setParticipants);
+
+  const [roomCode, setRoomCode] = useState('');
+  const [user, setUser] = useState('');
+
+  const handleJoinRoom = async () => {
+    if (!roomCode.trim() || !user.trim()) {
+      return Alert.alert('Missing info', 'Please enter room ID & name');
+    }
+    console.log(roomCode, user);
+    try {
+      // 1️⃣ Verify Room Exists
+      const exists = await axios.get(API.CHECK_ROOM_EXISTS(roomCode));
+      console.log('exists: ', exists);
+      if (!exists.data.exists) {
+        return Alert.alert('Room Not Found', 'Enter valid Room ID');
+      }
+
+      // 2️⃣ Join Room API
+      const res = await axios.post(API.JOIN_ROOM(roomCode), {
+        user: user,
+      });
+      console.log('res: ', res);
+      setUserId(res.data.newParticipant._id);
+      setRoomId(roomCode);
+      setRoomName(res.data.room.name);
+      setUserName(user);
+
+      // 3️⃣ WebSocket real-time join
+      socket.emit('join_room', { roomId: roomCode, user });
+
+      // 4️⃣ Get full room state once synced
+      socket.once('room_state', state => {
+        console.log('ROOM SYNCED STATE:', state);
+        setSongs(state.songs || []);
+        setNowPlaying(state.nowPlaying || null);
+        setParticipants(state.participants || []);
+        navigation.navigate('Room'); // 5️⃣ Navigate only after sync done
+      });
+    } catch (err) {
+      console.log(err);
+      Alert.alert('Error', 'Failed to join room or UserName taken');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Join Room</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Your Name"
+        placeholderTextColor="#aaa"
+        value={user}
+        onChangeText={setUser}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Room ID"
+        placeholderTextColor="#aaa"
+        autoCapitalize="none"
+        value={roomCode}
+        onChangeText={setRoomCode}
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleJoinRoom}>
+        <Text style={styles.btnText}>Join</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20, backgroundColor: '#0b0f15' },
+  title: { color: 'white', fontSize: 28, marginBottom: 20 },
+  input: {
+    backgroundColor: '#1e242e',
+    color: 'white',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#2563EB',
+    paddingVertical: 15,
+    borderRadius: 8,
+  },
+  btnText: { color: 'white', textAlign: 'center', fontSize: 18 },
+});
