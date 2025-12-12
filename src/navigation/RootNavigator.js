@@ -9,6 +9,7 @@ import RoomScreen from '../screens/RoomScreen';
 import AddSongScreen from '../screens/AddSongScreen';
 import CreatedRoomListScreen from '../screens/CreatedRoomListScreen';
 import PublicRoomListScreen from '../screens/PublicRoomListScreen';
+import MusicPlayerScreen from '../screens/MusicPlayerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,11 @@ export default function RootNavigator() {
           name="AddSong"
           component={AddSongScreen}
           options={{ title: 'Add Song' }}
+        />
+        <Stack.Screen
+          name="MusicPlayer"
+          component={MusicPlayerScreen}
+          options={{ title: 'Music Player' }}
         />
 
         <Stack.Screen name="PublicRooms" component={PublicRoomListScreen} />

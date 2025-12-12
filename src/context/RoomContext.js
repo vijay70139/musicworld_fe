@@ -15,15 +15,23 @@ export const RoomProvider = ({ children }) => {
   const [songs, setSongs] = useState([]);
   const [nowPlaying, setNowPlaying] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [externalEvent, setExternalEvent] = useState(null);
+  
 
   // Enable socket listeners
-  useRoomSocket(roomId, setSongs, setNowPlaying, setParticipants);
+  useRoomSocket(
+    roomId,
+    setSongs,
+    setNowPlaying,
+    setParticipants,
+    setExternalEvent,
+  );
 
   // Fetch Playlist
   const fetchPlaylist = async id => {
     try {
       const res = await axios.get(API.PLAYLIST(id));
-      console.log("res:playlist ", res);
+      console.log('res:playlist ', res);
       if (res.data.success) setSongs(res.data.playlist);
     } catch (e) {
       console.log('fetchPlaylist error:', e.message);
@@ -70,7 +78,7 @@ export const RoomProvider = ({ children }) => {
 
   // 🔹 Join Room
   const joinRoom = async (id, user) => {
-    console.log("id, user: ", id, user);
+    console.log('id, user: ', id, user);
     await axios.post(API.JOIN_ROOM(id), { user: user });
 
     setRoomId(id);
@@ -138,6 +146,30 @@ export const RoomProvider = ({ children }) => {
     }
   };
 
+  const sendPlay = position => {
+    socket.emit('play', { roomId, at: position });
+  };
+
+  const sendPause = position => {
+    socket.emit('pause', { roomId, at: position });
+  };
+
+  const sendSeek = position => {
+    socket.emit('seek', { roomId, position });
+  };
+
+  const playSong = at => {
+    socket.emit('play', { roomId, at });
+  };
+
+  const pauseSong = at => {
+    socket.emit('pause', { roomId, at });
+  };
+
+  const seekSong = position => {
+    socket.emit('seek', { roomId, position });
+  };
+
   return (
     <RoomContext.Provider
       value={{
@@ -162,6 +194,14 @@ export const RoomProvider = ({ children }) => {
         setRoomName,
         removeParticipant,
         fetchPlaylist,
+        fetchNowPlaying,
+        sendPlay,
+        sendPause,
+        sendSeek,
+        externalEvent,
+        playSong,
+        pauseSong,
+        seekSong,
       }}
     >
       {children}
