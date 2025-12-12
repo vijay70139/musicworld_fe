@@ -27,6 +27,7 @@ export default function MusicPlayerScreen({ navigation }) {
     playSong,
     pauseSong,
     seekSong,
+    PreviousSong
   } = useContext(RoomContext);
 
   const playerRef = useRef(null);
@@ -160,7 +161,7 @@ export default function MusicPlayerScreen({ navigation }) {
       <View style={styles.controlsRow}>
         <TouchableOpacity
           style={styles.smallButton}
-          onPress={() => console.log('prev (optional)')}
+          onPress={() => PreviousSong()}
         >
           <Text style={styles.smallButtonText}>⏮</Text>
         </TouchableOpacity>

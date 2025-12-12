@@ -16,7 +16,6 @@ export const RoomProvider = ({ children }) => {
   const [nowPlaying, setNowPlaying] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [externalEvent, setExternalEvent] = useState(null);
-  
 
   // Enable socket listeners
   useRoomSocket(
@@ -42,9 +41,22 @@ export const RoomProvider = ({ children }) => {
   const fetchNowPlaying = async id => {
     try {
       const res = await axios.get(API.GET_NOW_PLAYING(id));
+      console.log('res:nowPlaying ', res);
       if (res.data.success) setNowPlaying(res.data.nowPlaying);
     } catch (e) {
       console.log('fetchNowPlaying error:', e.message);
+    }
+  };
+
+  const PreviousSong = async () => {
+    try {
+      console.log(API.PREV_SONG(roomId));
+      
+      const res = await axios.post(API.PREV_SONG(roomId));
+      console.log('res:previousSong ', res);
+      if (res.data.success) setNowPlaying(res.data.nowPlaying);
+    } catch (e) {
+      console.log('setPreviousSong error:', e.message);
     }
   };
 
@@ -105,6 +117,8 @@ export const RoomProvider = ({ children }) => {
   // 🔹 Skip Song
   const skipSong = async () => {
     await axios.post(API.SKIP(roomId));
+    await fetchNowPlaying(roomId);
+    await fetchPlaylist(roomId);
   };
 
   // 🔹 Leave
@@ -202,6 +216,7 @@ export const RoomProvider = ({ children }) => {
         playSong,
         pauseSong,
         seekSong,
+        PreviousSong,
       }}
     >
       {children}
