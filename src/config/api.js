@@ -1,6 +1,5 @@
-// const BASE_URL = 'http://10.0.2.2:4000/api/rooms'; // Android Emulator
-import { BASE_URL } from '@env';
-console.log('BASE_URL 👉', BASE_URL);
+const BASE_URL = 'http://10.0.2.2:4000/api/rooms'; // Android Emulator
+
 export default {
   CREATE_ROOM: `${BASE_URL}/create`,
   GET_ROOM: id => `${BASE_URL}/${id}`,

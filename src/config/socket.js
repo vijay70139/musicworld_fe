@@ -1,7 +1,6 @@
 import { io } from 'socket.io-client';
-import { SOCKET_URL } from '@env';
 
-const socket = io(SOCKET_URL, {
+const socket = io('http://10.0.2.2:4000', {
   transports: ['websocket'],
 });
 
