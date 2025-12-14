@@ -4,11 +4,11 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Video from 'react-native-video';
 import { RoomContext } from '../context/RoomContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const formatTime = seconds => {
   if (!seconds || isNaN(seconds)) return '0:00';
@@ -27,7 +27,7 @@ export default function MusicPlayerScreen({ navigation }) {
     playSong,
     pauseSong,
     seekSong,
-    PreviousSong
+    PreviousSong,
   } = useContext(RoomContext);
 
   const playerRef = useRef(null);
@@ -36,6 +36,7 @@ export default function MusicPlayerScreen({ navigation }) {
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
+  const [seekValue, setSeekValue] = useState(0);
 
   // If no track → go back
   useEffect(() => {
@@ -143,11 +144,14 @@ export default function MusicPlayerScreen({ navigation }) {
         <Slider
           minimumValue={0}
           maximumValue={duration}
-          value={isSeeking ? undefined : position}
+          value={isSeeking ? seekValue : position}
           minimumTrackTintColor="#22c55e"
           maximumTrackTintColor="#444"
           thumbTintColor="#fff"
-          onSlidingStart={() => setIsSeeking(true)}
+          onSlidingStart={() => {
+            setIsSeeking(true);
+            setSeekValue(position);
+          }}
           onSlidingComplete={handleSeekComplete}
         />
 

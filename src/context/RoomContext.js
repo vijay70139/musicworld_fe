@@ -50,13 +50,12 @@ export const RoomProvider = ({ children }) => {
 
   const PreviousSong = async () => {
     try {
-      console.log(API.PREV_SONG(roomId));
-      
-      const res = await axios.post(API.PREV_SONG(roomId));
-      console.log('res:previousSong ', res);
-      if (res.data.success) setNowPlaying(res.data.nowPlaying);
-    } catch (e) {
-      console.log('setPreviousSong error:', e.message);
+      await axios.post(API.PREV_SONG(roomId));
+      await fetchNowPlaying(roomId);
+      await fetchPlaylist(roomId);
+      console.log('PreviousSong called');
+    } catch (error) {
+      console.log('PreviousSong error:', error.message);
     }
   };
 
