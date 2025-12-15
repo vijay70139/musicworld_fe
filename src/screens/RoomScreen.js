@@ -12,6 +12,7 @@ import {
 import { RoomContext } from '../context/RoomContext';
 import axios from 'axios';
 import API from '../config/api';
+import socket from '../config/socket';
 
 export default function RoomScreen({ navigation }) {
   const [showParticipants, setShowParticipants] = useState(false);
@@ -39,19 +40,13 @@ export default function RoomScreen({ navigation }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
-  const handleSongSelect = async song => {
-    console.log('song: ', song);
+  const handleSongSelect = song => {
     if (!song) return;
-    try {
-      const res = await axios.post(API.SET_NOW(roomId), song);
-      console.log('Set now playing response:', res);
-      if (res.data.success) {
-        // Successfully set now playing
-        setNowPlaying(res.data.nowPlaying);
-      }
-    } catch (err) {
-      console.log('Failed to set now playing:', err);
-    }
+
+    socket.emit('set_now_playing', {
+      roomId,
+      song,
+    });
   };
 
   const handleRemoveParticipant = participant => {

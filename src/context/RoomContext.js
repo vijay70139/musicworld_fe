@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import API from '../config/api';
 import axios from 'axios';
 import socket from '../config/socket'; // Remove braces! Default export
@@ -26,6 +26,21 @@ export const RoomProvider = ({ children }) => {
     setExternalEvent,
   );
 
+  useEffect(() => {
+    if (!roomId) return;
+
+    const handleReconnect = () => {
+      console.log('🔁 Re-syncing room:', roomId);
+      socket.emit('sync_request', { roomId });
+    };
+
+    socket.on('reconnect', handleReconnect);
+
+    return () => {
+      socket.off('reconnect', handleReconnect);
+    };
+  }, [roomId]);
+
   // Fetch Playlist
   const fetchPlaylist = async id => {
     try {
@@ -49,14 +64,7 @@ export const RoomProvider = ({ children }) => {
   };
 
   const PreviousSong = async () => {
-    try {
-      await axios.post(API.PREV_SONG(roomId));
-      await fetchNowPlaying(roomId);
-      await fetchPlaylist(roomId);
-      console.log('PreviousSong called');
-    } catch (error) {
-      console.log('PreviousSong error:', error.message);
-    }
+    socket.emit('previous_song', { roomId });
   };
 
   // 🔹 Create Room
@@ -115,14 +123,12 @@ export const RoomProvider = ({ children }) => {
 
   // 🔹 Skip Song
   const skipSong = async () => {
-    await axios.post(API.SKIP(roomId));
-    await fetchNowPlaying(roomId);
-    await fetchPlaylist(roomId);
+    socket.emit('skip_song', { roomId });
   };
 
   // 🔹 Leave
   const leaveRoom = async () => {
-    await axios.post(API.LEAVE_ROOM(roomId), { userId });
+    // await axios.post(API.LEAVE_ROOM(roomId), { userId });
     socket.emit('leave_room', { roomId, userId });
 
     setRoomId(null);

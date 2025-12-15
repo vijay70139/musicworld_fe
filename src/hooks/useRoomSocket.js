@@ -6,7 +6,7 @@ const useRoomSocket = (
   setSongs,
   setNowPlaying,
   setParticipants,
-  setExternalEvent
+  setExternalEvent,
 ) => {
   useEffect(() => {
     if (!roomId) return;
@@ -58,6 +58,12 @@ const useRoomSocket = (
       setExternalEvent({ type: 'seek', position });
     });
 
+    socket.on('room_state', state => {
+      setSongs(state.songs || []);
+      setNowPlaying(state.nowPlaying || null);
+      setParticipants(state.participants || []);
+    });
+
     // --------------------------
     // CLEANUP
     // --------------------------
@@ -71,6 +77,7 @@ const useRoomSocket = (
       socket.off('play'); // ✅ FIXED
       socket.off('pause'); // ✅ FIXED
       socket.off('seek'); // ✅ FIXED
+      socket.off('room_state');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
