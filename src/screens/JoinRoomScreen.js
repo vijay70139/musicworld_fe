@@ -34,37 +34,37 @@ export default function JoinRoomScreen({ navigation }) {
     }
     console.log(roomCode, user);
     try {
-      // 1️⃣ Verify Room Exists
+      // 1️⃣ Verify room exists (REST)
       const exists = await axios.get(API.CHECK_ROOM_EXISTS(roomCode));
-      console.log('exists: ', exists);
       if (!exists.data.exists) {
         return Alert.alert('Room Not Found', 'Enter valid Room ID');
       }
 
-      // 2️⃣ Join Room API
-      const res = await axios.post(API.JOIN_ROOM(roomCode), {
-        user: user,
-      });
-      console.log('res: ', res);
-      setUserId(res.data.newParticipant._id);
-      setRoomId(roomCode);
-      setRoomName(res.data.room.name);
-      setUserName(user);
-
-      // 3️⃣ WebSocket real-time join
+      // 2️⃣ Join room via SOCKET ONLY
       socket.emit('join_room', { roomId: roomCode, user });
 
-      // 4️⃣ Get full room state once synced
+      // 3️⃣ Receive synced room state
       socket.once('room_state', state => {
         console.log('ROOM SYNCED STATE:', state);
+
+        setRoomId(roomCode);
+        setRoomName(state.name);
+        setUserName(user);
+
         setSongs(state.songs || []);
         setNowPlaying(state.nowPlaying || null);
         setParticipants(state.participants || []);
-        navigation.navigate('Room'); // 5️⃣ Navigate only after sync done
+
+        navigation.navigate('Room');
+      });
+
+      // Optional: error handling
+      socket.once('error', err => {
+        Alert.alert('Join Failed', err.message || 'Unable to join room');
       });
     } catch (err) {
       console.log(err);
-      Alert.alert('Error', 'Failed to join room or UserName taken');
+      Alert.alert('Error', 'Failed to join room');
     }
   };
 

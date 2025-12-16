@@ -13,6 +13,7 @@ export const RoomProvider = ({ children }) => {
   const [userName, setUserName] = useState(null);
   const [userId, setUserId] = useState(null);
   const [songs, setSongs] = useState([]);
+  const [allSongs, setAllSongs] = useState([]);
   const [nowPlaying, setNowPlaying] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [externalEvent, setExternalEvent] = useState(null);
@@ -189,6 +190,15 @@ export const RoomProvider = ({ children }) => {
     socket.emit('seek', { roomId, position });
   };
 
+  const getAllSongs = async () => {
+    try {
+      const res = await axios.get(API.GET_ALL_SONGS());
+      if (res.data.success) setAllSongs(res.data.songs);
+    } catch (e) {
+      console.log('getAllSongs error:', e.message);
+    }
+  };
+
   return (
     <RoomContext.Provider
       value={{
@@ -222,6 +232,9 @@ export const RoomProvider = ({ children }) => {
         pauseSong,
         seekSong,
         PreviousSong,
+        setAllSongs,
+        allSongs,
+        getAllSongs,
       }}
     >
       {children}

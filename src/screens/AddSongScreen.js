@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  FlatList,
 } from 'react-native';
 import { RoomContext } from '../context/RoomContext';
 import socket from '../config/socket';
@@ -13,7 +14,21 @@ import socket from '../config/socket';
 export default function AddSongScreen({ navigation }) {
   const [url, setUrl] = useState('');
   const [songTitle, setSongTitle] = useState('');
-  const { roomId, fetchPlaylist } = useContext(RoomContext);
+  const { roomId, fetchPlaylist, allSongs, getAllSongs } =
+    useContext(RoomContext);
+  console.log('allSongs: ', allSongs);
+
+  useEffect(() => {
+    getAllSongs();
+  }, []);
+
+  const addToRoom = songId => {
+    socket.emit('add_song_to_room', {
+      roomId,
+      songId,
+    });
+    navigation.goBack();
+  };
 
   const handleAddSong = async () => {
     if (!url.trim() || !songTitle.trim()) {
@@ -27,7 +42,7 @@ export default function AddSongScreen({ navigation }) {
     };
     console.log(song, 'song adding');
 
-    socket.emit('add_song', { roomId, song });
+    await socket.emit('add_song', { roomId, song });
 
     // Refresh playlist
     await fetchPlaylist(roomId);
@@ -57,6 +72,48 @@ export default function AddSongScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleAddSong}>
         <Text style={styles.buttonText}>Add to Playlist</Text>
       </TouchableOpacity>
+      {allSongs.length === 0 && (
+        <Text style={{ color: '#fff', marginTop: 20 }}>
+          No songs available to add.
+        </Text>
+      )}
+      {allSongs.length > 0 && (
+        <Text style={{ color: '#fff', marginTop: 20, marginBottom: 10 }}>
+          select from existing songs:
+        </Text>
+      )}
+      {allSongs.length > 0 && (
+        <FlatList
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+          data={allSongs}
+          keyExtractor={item => item._id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.songRow}
+              activeOpacity={0.7}
+              onPress={() => addToRoom(item._id)}
+            >
+              <View style={styles.songInfo}>
+                <Text style={styles.songTitle} numberOfLines={1}>
+                  {item.title}
+                </Text>
+                {item.duration ? (
+                  <Text style={styles.songDuration}>
+                    {Math.floor(item.duration / 60)}:
+                    {(item.duration % 60).toString().padStart(2, '0')}
+                  </Text>
+                ) : null}
+              </View>
+
+              <Text style={styles.addIcon}>➕</Text>
+            </TouchableOpacity>
+          )}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>No songs available</Text>
+          }
+        />
+      )}
     </View>
   );
 }
@@ -92,5 +149,46 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 17,
     fontWeight: 'bold',
+  },
+  list: {
+    width: '100%',
+    marginTop: 10,
+  },
+  listContent: {
+    paddingBottom: 20,
+  },
+  songRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#1c2330',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    marginBottom: 12,
+  },
+  songInfo: {
+    flex: 1,
+    marginRight: 10,
+  },
+  songTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  songDuration: {
+    color: '#9CA3AF',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  addIcon: {
+    fontSize: 22,
+    color: '#22c55e',
+  },
+  emptyText: {
+    color: '#777',
+    textAlign: 'center',
+    marginTop: 40,
+    fontSize: 16,
   },
 });

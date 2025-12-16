@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import socket from '../config/socket';
+import { Alert } from 'react-native';
 
 const useRoomSocket = (
   roomId,
@@ -64,6 +65,14 @@ const useRoomSocket = (
       setParticipants(state.participants || []);
     });
 
+    socket.on('error', err => {
+      if (err.type === 'SONG_ALREADY_IN_ROOM') {
+        Alert.alert('Already Added', err.message);
+      } else {
+        Alert.alert('Error', err.message);
+      }
+    });
+
     // --------------------------
     // CLEANUP
     // --------------------------
@@ -78,6 +87,7 @@ const useRoomSocket = (
       socket.off('pause'); // ✅ FIXED
       socket.off('seek'); // ✅ FIXED
       socket.off('room_state');
+      socket.off('error');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);

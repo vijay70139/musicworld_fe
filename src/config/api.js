@@ -16,4 +16,5 @@ export default {
   PARTICIPANTS: id => `${BASE_URL}/${id}/participants`,
   REMOVE_PARTICIPANT: id => `${BASE_URL}/${id}/removeParticipant`,
   PREV_SONG: id => `${BASE_URL}/${id}/previous`,
+  GET_ALL_SONGS: id => `${BASE_URL}/allsongs`,
 };
