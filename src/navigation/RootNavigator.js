@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import HomeScreen from '../screens/HomeScreen';
 import CreateRoomScreen from '../screens/CreateRoomScreen';
 import JoinRoomScreen from '../screens/JoinRoomScreen';
@@ -10,6 +9,7 @@ import AddSongScreen from '../screens/AddSongScreen';
 import CreatedRoomListScreen from '../screens/CreatedRoomListScreen';
 import PublicRoomListScreen from '../screens/PublicRoomListScreen';
 import MusicPlayerScreen from '../screens/MusicPlayerScreen';
+import HomeButton from '../components/HomeButton';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,9 +19,9 @@ export default function RootNavigator() {
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          headerStyle: { backgroundColor: '#0b0f15' },
-          headerTintColor: 'white',
-          headerTitleStyle: { fontSize: 20 },
+          headerStyle: { backgroundColor: '#020214' },
+          headerTintColor: '#fff',
+          headerRight: () => <HomeButton />,
         }}
       >
         <Stack.Screen
@@ -61,7 +61,11 @@ export default function RootNavigator() {
         <Stack.Screen
           name="MusicPlayer"
           component={MusicPlayerScreen}
-          options={{ title: 'Music Player' }}
+          options={{
+            title: 'Music Player',
+            // headerShown: false,
+            unmountOnBlur: false,
+          }}
         />
 
         <Stack.Screen name="PublicRooms" component={PublicRoomListScreen} />

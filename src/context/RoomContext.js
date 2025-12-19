@@ -166,27 +166,18 @@ export const RoomProvider = ({ children }) => {
     }
   };
 
-  const sendPlay = position => {
-    socket.emit('play', { roomId, at: position });
-  };
-
-  const sendPause = position => {
-    socket.emit('pause', { roomId, at: position });
-  };
-
-  const sendSeek = position => {
-    socket.emit('seek', { roomId, position });
-  };
-
   const playSong = at => {
+    if (!roomId) return;
     socket.emit('play', { roomId, at });
   };
 
   const pauseSong = at => {
+    if (!roomId) return;
     socket.emit('pause', { roomId, at });
   };
 
   const seekSong = position => {
+    if (!roomId) return;
     socket.emit('seek', { roomId, position });
   };
 
@@ -224,9 +215,6 @@ export const RoomProvider = ({ children }) => {
         removeParticipant,
         fetchPlaylist,
         fetchNowPlaying,
-        sendPlay,
-        sendPause,
-        sendSeek,
         externalEvent,
         playSong,
         pauseSong,
