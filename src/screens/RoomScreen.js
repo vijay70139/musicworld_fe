@@ -28,6 +28,9 @@ export default function RoomScreen({ navigation }) {
     leaveRoom,
     removeParticipant,
     setNowPlaying,
+    paused,
+    play,
+    pause,
   } = useContext(RoomContext);
   console.log('roomName, userName: ', roomName, userName);
 
@@ -70,7 +73,13 @@ export default function RoomScreen({ navigation }) {
           onPress={() => navigation.navigate('MusicPlayer')}
         >
           <Text style={styles.nowTitle}>🎶 Now Playing:</Text>
-          <Text style={styles.songName}>{nowPlaying.title}</Text>
+          <TouchableOpacity
+            style={styles.songButton}
+            onPress={paused ? play : pause}
+          >
+            <Text style={styles.songName}>{nowPlaying.title}</Text>
+            <Text>{paused ? '▶️' : '⏸'}</Text>
+          </TouchableOpacity>
         </TouchableOpacity>
       ) : (
         <Text style={styles.waiting}>Waiting for a song...</Text>
@@ -82,12 +91,12 @@ export default function RoomScreen({ navigation }) {
         data={songs}
         keyExtractor={item => item.title}
         renderItem={({ item }) => (
-          <View
+          <TouchableOpacity
             style={styles.songItem}
-            onTouchEnd={() => handleSongSelect(item)}
+            onPress={() => handleSongSelect(item)}
           >
             <Text style={styles.songText}>{item.title}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <Text style={styles.empty}>No songs added yet</Text>
@@ -151,6 +160,27 @@ export default function RoomScreen({ navigation }) {
           </View>
         </View>
       </Modal>
+      {/* 🎛 Floating Mini Player */}
+      {/* {nowPlaying && (
+        <TouchableOpacity
+          style={styles.miniPlayer}
+          activeOpacity={0.9}
+          onPress={() => navigation.navigate('MusicPlayer')}
+        >
+          <View style={styles.miniInfo}>
+            <Text style={styles.miniTitle} numberOfLines={1}>
+              🎵 {nowPlaying.title}
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={paused ? play : pause}
+            style={styles.miniControl}
+          >
+            <Text style={styles.miniIcon}>{paused ? '▶️' : '⏸'}</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )} */}
     </View>
   );
 }
@@ -275,6 +305,15 @@ const styles = StyleSheet.create({
   },
   userRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    display: 'flex',
+    marginBottom: 5,
+  },
+  songButton: {
+    marginTop: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     alignItems: 'center',
     display: 'flex',

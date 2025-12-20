@@ -7,7 +7,7 @@ const useRoomSocket = (
   setSongs,
   setNowPlaying,
   setParticipants,
-  setExternalEvent,
+  // setExternalEvent,
 ) => {
   useEffect(() => {
     if (!roomId) return;
@@ -47,17 +47,17 @@ const useRoomSocket = (
     // REALTIME PLAYBACK SYNC
     // --------------------------
 
-    socket.on('play', ({ at }) => {
-      setExternalEvent({ type: 'play', at });
-    });
+    // socket.on('play', ({ at }) => {
+    //   setExternalEvent({ type: 'play', at });
+    // });
 
-    socket.on('pause', ({ at }) => {
-      setExternalEvent({ type: 'pause', at });
-    });
+    // socket.on('pause', ({ at }) => {
+    //   setExternalEvent({ type: 'pause', at });
+    // });
 
-    socket.on('seek', ({ position }) => {
-      setExternalEvent({ type: 'seek', position });
-    });
+    // socket.on('seek', ({ position }) => {
+    //   setExternalEvent({ type: 'seek', position });
+    // });
 
     socket.on('room_state', state => {
       console.log("state: ", state);
@@ -84,9 +84,9 @@ const useRoomSocket = (
       socket.off('user_left');
       socket.off('participants_updated');
 
-      socket.off('play'); // ✅ FIXED
-      socket.off('pause'); // ✅ FIXED
-      socket.off('seek'); // ✅ FIXED
+      // socket.off('play'); // ✅ FIXED
+      // socket.off('pause'); // ✅ FIXED
+      // socket.off('seek'); // ✅ FIXED
       socket.off('room_state');
       socket.off('error');
     };

@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Video from 'react-native-video';
 import { RoomContext } from '../context/RoomContext';
@@ -28,13 +23,18 @@ export default function MusicPlayerScreen({ navigation }) {
     pauseSong,
     seekSong,
     PreviousSong,
+    paused,
+    play,
+    pause,
+    position,
+    seek,
   } = useContext(RoomContext);
 
   const playerRef = useRef(null);
 
-  const [paused, setPaused] = useState(false);
+  // const [paused, setPaused] = useState(false);
   const [duration, setDuration] = useState(0);
-  const [position, setPosition] = useState(0);
+  // const [position, setPosition] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [seekValue, setSeekValue] = useState(0);
 
@@ -107,7 +107,7 @@ export default function MusicPlayerScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Video
+      {/* <Video
         ref={playerRef}
         source={{ uri: nowPlaying.url }}
         paused={paused}
@@ -117,7 +117,7 @@ export default function MusicPlayerScreen({ navigation }) {
         onProgress={onProgress}
         onEnd={onEnd}
         style={styles.hiddenPlayer}
-      />
+      /> */}
 
       {/* HEADER */}
       <View style={styles.header}>
@@ -141,7 +141,7 @@ export default function MusicPlayerScreen({ navigation }) {
 
       {/* Progress slider */}
       <View style={styles.progressContainer}>
-        <Slider
+        {/* <Slider
           minimumValue={0}
           maximumValue={duration}
           value={isSeeking ? seekValue : position}
@@ -153,8 +153,8 @@ export default function MusicPlayerScreen({ navigation }) {
             setSeekValue(position);
           }}
           onSlidingComplete={handleSeekComplete}
-        />
-
+        /> */}
+        <Slider value={position} onSlidingComplete={seek} />
         <View style={styles.timeRow}>
           <Text style={styles.timeText}>{formatTime(position)}</Text>
           <Text style={styles.timeText}>{formatTime(duration)}</Text>
@@ -170,7 +170,10 @@ export default function MusicPlayerScreen({ navigation }) {
           <Text style={styles.smallButtonText}>⏮</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mainButton} onPress={handlePlayPause}>
+        <TouchableOpacity
+          style={styles.mainButton}
+          onPress={paused ? play : pause}
+        >
           <Text style={styles.mainButtonText}>{paused ? '▶️' : '⏸'}</Text>
         </TouchableOpacity>
 

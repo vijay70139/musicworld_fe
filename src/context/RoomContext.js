@@ -17,6 +17,8 @@ export const RoomProvider = ({ children }) => {
   const [nowPlaying, setNowPlaying] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [externalEvent, setExternalEvent] = useState(null);
+  const [paused, setPaused] = useState(true);
+  const [position, setPosition] = useState(0);
 
   // Enable socket listeners
   useRoomSocket(
@@ -39,6 +41,34 @@ export const RoomProvider = ({ children }) => {
 
     return () => {
       socket.off('reconnect', handleReconnect);
+    };
+  }, [roomId]);
+
+  useEffect(() => {
+    if (!roomId) return;
+
+    const onPlay = ({ at }) => {
+      setPosition(at || 0);
+      setPaused(false);
+    };
+
+    const onPause = ({ at }) => {
+      setPosition(at || 0);
+      setPaused(true);
+    };
+
+    const onSeek = ({ position }) => {
+      setPosition(position);
+    };
+
+    socket.on('play', onPlay);
+    socket.on('pause', onPause);
+    socket.on('seek', onSeek);
+
+    return () => {
+      socket.off('play', onPlay);
+      socket.off('pause', onPause);
+      socket.off('seek', onSeek);
     };
   }, [roomId]);
 
@@ -181,6 +211,21 @@ export const RoomProvider = ({ children }) => {
     socket.emit('seek', { roomId, position });
   };
 
+  const play = () => {
+    setPaused(false);
+    socket.emit('play', { roomId, at: position });
+  };
+
+  const pause = () => {
+    setPaused(true);
+    socket.emit('pause', { roomId, at: position });
+  };
+
+  const seek = pos => {
+    setPosition(pos);
+    socket.emit('seek', { roomId, position: pos });
+  };
+
   const getAllSongs = async () => {
     try {
       const res = await axios.get(API.GET_ALL_SONGS());
@@ -223,6 +268,13 @@ export const RoomProvider = ({ children }) => {
         setAllSongs,
         allSongs,
         getAllSongs,
+        play,
+        pause,
+        seek,
+        setPaused,
+        setPosition,
+        paused,
+        position,
       }}
     >
       {children}
