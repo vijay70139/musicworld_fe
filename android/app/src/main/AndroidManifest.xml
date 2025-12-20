@@ -5,8 +5,8 @@
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
-      android:icon="@mipmap/minitunesicon"
-      android:roundIcon="@mipmap/minitunesicon"
+      android:icon="@mipmap/minitunes"
+      android:roundIcon="@mipmap/minitunes"
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
