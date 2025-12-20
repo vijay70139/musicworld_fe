@@ -70,7 +70,7 @@ export default function RoomScreen({ navigation }) {
       {nowPlaying ? (
         <TouchableOpacity
           style={styles.nowPlayingBox}
-          onPress={() => navigation.navigate('MusicPlayer')}
+          // onPress={() => navigation.navigate('MusicPlayer')}
         >
           <Text style={styles.nowTitle}>🎶 Now Playing:</Text>
           <TouchableOpacity
