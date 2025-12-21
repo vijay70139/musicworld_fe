@@ -8,7 +8,7 @@ const HomeButton = () => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('Home')}
+      onPress={() => navigation.navigate('VerifyUser')}
     >
       <Text style={styles.icon}>🏠</Text>
     </TouchableOpacity>

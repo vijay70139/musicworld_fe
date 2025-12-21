@@ -11,14 +11,17 @@ import React from 'react';
 import RootNavigator from './src/navigation/RootNavigator';
 import { RoomProvider } from './src/context/RoomContext';
 import GlobalAudioPlayer from './src/screens/GlobalAudioPlayer';
+import { AuthProvider } from './src/context/AuthContext';
 
 const App: React.FC = () => {
   return (
     <SafeAreaProvider>
-      <RoomProvider>
-        <GlobalAudioPlayer />
-        <RootNavigator />
-      </RoomProvider>
+      <AuthProvider>
+        <RoomProvider>
+          <GlobalAudioPlayer />
+          <RootNavigator />
+        </RoomProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 };

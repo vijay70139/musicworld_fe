@@ -10,6 +10,7 @@ import CreatedRoomListScreen from '../screens/CreatedRoomListScreen';
 import PublicRoomListScreen from '../screens/PublicRoomListScreen';
 import MusicPlayerScreen from '../screens/MusicPlayerScreen';
 import HomeButton from '../components/HomeButton';
+import VerifyUserScreen from '../screens/VerifyUserScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,13 +18,15 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="VerifyUser"
         screenOptions={{
           headerStyle: { backgroundColor: '#020214' },
           headerTintColor: '#fff',
           headerRight: () => <HomeButton />,
+          title: 'Music World',
         }}
       >
+        <Stack.Screen name="VerifyUser" component={VerifyUserScreen} />
         <Stack.Screen
           name="Home"
           component={HomeScreen}

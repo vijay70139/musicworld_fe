@@ -1,7 +1,20 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import {COLORS} from '../theme/colors';
+import React, { useContext, useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Image,
+} from 'react-native';
+import { COLORS } from '../theme/colors';
+import { AuthContext } from '../context/AuthContext';
+
 export default function HomeScreen({ navigation }) {
+  const [showStarModal, setShowStarModal] = useState(false);
+  const [activeStarImage, setActiveStarImage] = useState(null);
+
+  const { isVerified, userName } = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Music Room</Text>
@@ -19,6 +32,60 @@ export default function HomeScreen({ navigation }) {
       >
         <Text style={styles.btnText}>Join Room</Text>
       </TouchableOpacity>
+      {/* Decorative Stars */}
+      {isVerified && (
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              setActiveStarImage(require('../assets/images/NTR.jpg'));
+              setShowStarModal(true);
+            }}
+            style={styles.starTopLeft}
+          >
+            <Text style={styles.starTopLeft}>✦</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setActiveStarImage(require('../assets/images/image1.webp'));
+              setShowStarModal(true);
+            }}
+            style={styles.starMiddleRight}
+          >
+            <Text style={styles.starMiddleRight}>✧</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setActiveStarImage(require('../assets/images/NTR.jpg'));
+              setShowStarModal(true);
+            }}
+            style={styles.starBottomLeft}
+          >
+            <Text style={styles.starText}>✨</Text>
+          </TouchableOpacity>
+        </>
+      )}
+      <Modal
+        visible={showStarModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowStarModal(false)}
+      >
+        <TouchableOpacity
+          style={styles.starModalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowStarModal(false)}
+        >
+          <View style={styles.starModalContent}>
+            <Image
+              source={activeStarImage}
+              style={styles.starImage}
+              resizeMode="contain"
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 }
@@ -30,6 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    position: 'relative',
   },
   title: {
     color: COLORS.textPrimary,
@@ -47,5 +115,58 @@ const styles = StyleSheet.create({
   btnText: {
     color: COLORS.background,
     fontSize: 18,
+  },
+  starTopLeft: {
+    position: 'absolute',
+    top: 80,
+    left: 30,
+    fontSize: 26,
+    color: '#E6B7C1',
+    opacity: 0.7,
+  },
+
+  starMiddleRight: {
+    position: 'absolute',
+    top: '45%',
+    right: 25,
+    fontSize: 20,
+    color: '#C997A3',
+    // opacity: 0.6,
+  },
+
+  starBottomLeft: {
+    position: 'absolute',
+    bottom: 120,
+    left: 60,
+    fontSize: 30,
+    color: '#F1CBD5',
+    opacity: 0.5,
+  },
+  starText: {
+    fontSize: 26,
+  },
+
+  starModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  starModalContent: {
+    width: '80%',
+    height: '50%',
+    backgroundColor: '#1A1215',
+    borderRadius: 16,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E6B7C1',
+  },
+
+  starImage: {
+    width: '100%',
+    height: '100%',
   },
 });
