@@ -120,92 +120,117 @@ export default function CreatedRoomListScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0b0f15', padding: 20 },
-  title: { color: '#fff', fontSize: 26, fontWeight: 'bold', marginBottom: 15 },
+  container: {
+    flex: 1,
+    backgroundColor: '#0F0A0D',
+    padding: 20,
+  },
+
+  title: {
+    color: '#F8EDEF',
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 15,
+  },
 
   roomCard: {
-    backgroundColor: '#1c2433',
+    backgroundColor: '#1C1216',
     padding: 18,
-    borderRadius: 10,
+    borderRadius: 14,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
-  roomName: { color: '#fff', fontSize: 18, fontWeight: '600' },
-  roomUsers: { color: '#cccc', marginTop: 5 },
+
+  roomInfo: { flex: 1 },
+
+  roomName: {
+    color: '#F8EDEF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+
+  roomUsers: {
+    color: '#B89CA4',
+    marginTop: 5,
+    fontSize: 13,
+  },
 
   inviteBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: '#E6B7C1',
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 10,
     marginLeft: 10,
   },
+
+  inviteBtnIcon: {
+    color: '#0F0A0D',
+    fontSize: 18,
+  },
+
   newRoomBtn: {
-    backgroundColor: '#185ADB',
+    backgroundColor: '#E6B7C1',
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 14,
     alignItems: 'center',
     marginTop: 15,
   },
-  newRoomText: { color: 'white', fontSize: 18, fontWeight: '600' },
 
-  // Modal Styles
+  newRoomText: {
+    color: '#0F0A0D',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+
+  /* MODAL */
+
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(15,10,13,0.85)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   modalContent: {
-    backgroundColor: '#1a2332',
+    backgroundColor: '#1C1216',
     padding: 20,
     width: '80%',
-    borderRadius: 10,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
 
-  closeBtn: {
-    marginTop: 10,
-    backgroundColor: '#444',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  inviteBtnIcon: { color: '#fff', fontSize: 18 },
-  roomInfo: { flex: 1 },
   closeIcon: {
     position: 'absolute',
-    right: 10,
-    top: 10,
-    width: 20,
-    height: 20,
-    borderRadius: 18, // makes it a perfect circle
-    backgroundColor: 'rgba(255, 255, 255, 0.43)',
+    right: 12,
+    top: 12,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: '#E6B7C1',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
-    elevation: 5,
-    shadowColor: '#cebdbdff',
-    shadowOpacity: 0.2,
-    shadowRadius: 1,
-    shadowOffset: { width: 0, height: 1 },
   },
 
   modalTitle: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 20,
     textAlign: 'center',
   },
 
   modalLabel: {
-    color: '#aaa',
+    color: '#B89CA4',
     fontSize: 14,
     marginTop: 10,
   },
 
   modalValue: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 18,
     marginTop: 3,
     fontWeight: '600',
@@ -213,14 +238,15 @@ const styles = StyleSheet.create({
 
   copyBtn: {
     marginTop: 25,
-    backgroundColor: '#2563EB',
+    backgroundColor: '#E6B7C1',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
   },
+
   copyText: {
-    color: '#fff',
+    color: '#0F0A0D',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });

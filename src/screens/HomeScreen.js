@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
+import {COLORS} from '../theme/colors';
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
@@ -26,26 +26,26 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0b0f15',
+    backgroundColor: COLORS.background,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
   title: {
-    color: 'white',
+    color: COLORS.textPrimary,
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 40,
   },
   button: {
-    backgroundColor: '#2563EB',
+    backgroundColor: COLORS.primary,
     paddingVertical: 15,
     paddingHorizontal: 80,
     borderRadius: 8,
     marginTop: 15,
   },
   btnText: {
-    color: 'white',
+    color: COLORS.background,
     fontSize: 18,
   },
 });

@@ -121,72 +121,95 @@ export default function AddSongScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#020214',
+    backgroundColor: '#0F0A0D',
     padding: 20,
   },
+
   heading: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginTop: 10,
     marginBottom: 20,
   },
+
   input: {
-    backgroundColor: '#1c1c2e',
+    backgroundColor: '#1C1216',
     padding: 15,
-    borderRadius: 8,
-    color: '#fff',
+    borderRadius: 14,
+    color: '#F8EDEF',
     fontSize: 16,
-    marginBottom: 20,
+    marginBottom: 18,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
+
   button: {
-    backgroundColor: '#257CFF',
-    paddingVertical: 14,
-    borderRadius: 8,
+    backgroundColor: '#E6B7C1',
+    paddingVertical: 16,
+    borderRadius: 16,
     alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#E6B7C1',
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
+
   buttonText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold',
+    color: '#0F0A0D',
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.4,
   },
+
   list: {
     width: '100%',
     marginTop: 10,
   },
+
   listContent: {
     paddingBottom: 20,
   },
+
   songRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#1c2330',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 10,
+    backgroundColor: '#1C1216',
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    borderRadius: 16,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
+
   songInfo: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 12,
   },
+
   songTitle: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 16,
     fontWeight: '600',
   },
+
   songDuration: {
-    color: '#9CA3AF',
+    color: '#B89CA4',
     fontSize: 12,
     marginTop: 4,
   },
+
   addIcon: {
     fontSize: 22,
-    color: '#22c55e',
+    color: '#E6B7C1',
   },
+
   emptyText: {
-    color: '#777',
+    color: '#7E646C',
     textAlign: 'center',
     marginTop: 40,
     fontSize: 16,

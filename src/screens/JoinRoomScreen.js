@@ -97,19 +97,47 @@ export default function JoinRoomScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#0b0f15' },
-  title: { color: 'white', fontSize: 28, marginBottom: 20 },
-  input: {
-    backgroundColor: '#1e242e',
-    color: 'white',
-    padding: 15,
-    borderRadius: 8,
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#0F0A0D',
+  },
+
+  title: {
+    color: '#F8EDEF',
+    fontSize: 26,
+    fontWeight: '700',
     marginBottom: 20,
   },
-  button: {
-    backgroundColor: '#2563EB',
-    paddingVertical: 15,
-    borderRadius: 8,
+
+  input: {
+    backgroundColor: '#1C1216',
+    color: '#F8EDEF',
+    padding: 15,
+    borderRadius: 14,
+    marginBottom: 20,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
-  btnText: { color: 'white', textAlign: 'center', fontSize: 18 },
+
+  button: {
+    backgroundColor: '#E6B7C1',
+    paddingVertical: 15,
+    borderRadius: 14,
+    alignItems: 'center',
+    shadowColor: '#E6B7C1',
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
+  },
+
+  btnText: {
+    color: '#0F0A0D',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
 });

@@ -56,36 +56,44 @@ export default function CreateRoomScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#020214',
+    backgroundColor: '#0F0A0D',
     padding: 20,
   },
 
   title: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 20,
   },
 
   input: {
-    backgroundColor: '#1a1a2d',
-    color: '#fff',
+    backgroundColor: '#1C1216',
+    color: '#F8EDEF',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 14,
     fontSize: 16,
     marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
 
   createBtn: {
-    backgroundColor: '#257CFF',
+    backgroundColor: '#E6B7C1',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 14,
     alignItems: 'center',
+    shadowColor: '#E6B7C1',
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
 
   btnText: {
-    color: '#fff',
+    color: '#0F0A0D',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
 });

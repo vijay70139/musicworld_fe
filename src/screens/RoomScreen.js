@@ -186,136 +186,199 @@ export default function RoomScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0b0f15', padding: 20 },
-  header: { marginBottom: 20 },
+  container: {
+    flex: 1,
+    backgroundColor: '#0F0A0D',
+    padding: 20,
+  },
+
+  /* ---------- HEADER ---------- */
+  header: {
+    marginBottom: 20,
+  },
+
   roomTitle: {
-    color: 'white',
+    color: '#F8EDEF',
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '700',
     textAlign: 'center',
-    marginBottom: 5,
+    marginBottom: 6,
   },
-  user: { color: '#aaa', fontSize: 14 },
 
+  user: {
+    color: '#B89CA4',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+
+  /* ---------- NOW PLAYING ---------- */
   nowPlayingBox: {
-    backgroundColor: '#1e242e',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
+    backgroundColor: '#1C1216',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 18,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
+    shadowColor: '#E6B7C1',
+    shadowOpacity: 0.18,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
-  nowTitle: { color: '#aaa', fontSize: 14 },
-  songName: { color: 'white', fontSize: 18, fontWeight: 'bold' },
-  waiting: { color: '#555', fontSize: 16, marginBottom: 10 },
 
-  sectionTitle: { color: '#aaa', fontSize: 14, marginVertical: 10 },
+  nowTitle: {
+    color: '#B89CA4',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+
+  songName: {
+    color: '#F8EDEF',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+
+  waiting: {
+    color: '#7E646C',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+
+  /* ---------- PLAYLIST ---------- */
+  sectionTitle: {
+    color: '#B89CA4',
+    fontSize: 14,
+    marginVertical: 12,
+  },
+
   songItem: {
-    padding: 12,
-    backgroundColor: '#1c2330',
-    marginBottom: 8,
-    borderRadius: 6,
+    padding: 14,
+    backgroundColor: '#1C1216',
+    marginBottom: 10,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
-  songText: { color: 'white' },
-  empty: { color: '#777', textAlign: 'center', marginTop: 10 },
 
+  songText: {
+    color: '#F8EDEF',
+    fontSize: 15,
+  },
+
+  empty: {
+    color: '#7E646C',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+
+  /* ---------- BUTTONS ---------- */
   skipBtn: {
-    backgroundColor: '#2563EB',
-    padding: 14,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  addBtn: {
-    backgroundColor: '#22c55e',
-    padding: 14,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  leaveBtn: {
-    backgroundColor: '#ef4444',
-    padding: 14,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  btnText: { color: 'white', textAlign: 'center', fontSize: 16 },
-  participantsBtn: {
-    backgroundColor: '#4A7AFF',
-    padding: 14,
-    borderRadius: 8,
-    marginTop: 10,
+    backgroundColor: '#E6B7C1',
+    padding: 15,
+    borderRadius: 16,
+    marginTop: 12,
+    shadowColor: '#E6B7C1',
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
 
+  addBtn: {
+    backgroundColor: '#C997A3',
+    padding: 15,
+    borderRadius: 16,
+    marginTop: 12,
+  },
+
+  participantsBtn: {
+    backgroundColor: '#B08994',
+    padding: 15,
+    borderRadius: 16,
+    marginTop: 12,
+  },
+
+  leaveBtn: {
+    backgroundColor: '#8E3B4E',
+    padding: 15,
+    borderRadius: 16,
+    marginTop: 12,
+  },
+
+  btnText: {
+    color: '#0F0A0D',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.4,
+  },
+
+  /* ---------- MODAL ---------- */
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(15,10,13,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   modalContent: {
-    width: '80%',
+    width: '85%',
     height: '60%',
-    backgroundColor: '#1e242e',
+    backgroundColor: '#1C1216',
     padding: 20,
-    borderRadius: 12,
-    alignItems: 'center',
+    borderRadius: 18,
     position: 'relative',
-  },
-  participantScroll: {
-    smoothness: 'auto',
-    smoothnessMode: 'always',
-  },
-
-  closeIcon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
   },
 
   modalTitle: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 15,
+    textAlign: 'center',
   },
 
   modalUser: {
-    color: '#fff',
-    paddingVertical: 5,
+    color: '#F8EDEF',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     fontSize: 16,
-    textAlign: 'left',
-    padding: 5,
-    backgroundColor: '#2a3342',
+    backgroundColor: '#2A1C22',
     width: '100%',
-    borderRadius: 6,
+    borderRadius: 12,
     marginTop: 8,
   },
 
   modalEmpty: {
-    color: '#aaa',
+    color: '#B89CA4',
     marginTop: 10,
+    textAlign: 'center',
   },
+
   modalCloseIcon: {
-    color: '#fff',
+    color: '#F8EDEF',
     fontSize: 18,
   },
+
   deleteIcon: {
-    color: '#ff4444',
+    color: '#E36C7C',
     fontSize: 18,
-    right: 0,
     marginLeft: 20,
   },
+
   userRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    display: 'flex',
-    marginBottom: 5,
+    marginBottom: 6,
   },
+
   songButton: {
-    marginTop: 5,
+    marginTop: 6,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     alignItems: 'center',
-    display: 'flex',
   },
 });
