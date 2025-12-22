@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
 import axios from 'axios';
 import API from '../config/api';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { AuthContext } from '../context/AuthContext';
+import FloatingStars from '../components/FloatingStars';
 // import { RoomContext } from '../context/RoomContext';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -18,6 +20,7 @@ export default function CreatedRoomListScreen({ navigation }) {
   const [selectedRoom, setSelectedRoom] = useState(null);
   // const { joinRoom, userName } = useContext(RoomContext);
   const [copied, setCopied] = useState(false);
+  const { isVerified } = useContext(AuthContext);
 
   const fetchRooms = async () => {
     try {
@@ -32,6 +35,10 @@ export default function CreatedRoomListScreen({ navigation }) {
     fetchRooms();
   }, []);
 
+  const STAR_IMAGES = [
+    require('../assets/images/image1.webp'),
+    require('../assets/images/NTR.jpg'),
+  ];
   // const handleJoin = async room => {
   //  await joinRoom(room._id, userName);
   //   navigation.navigate('Room');
@@ -45,6 +52,12 @@ export default function CreatedRoomListScreen({ navigation }) {
   console.log(selectedRoom, 'selectedRoom');
   return (
     <View style={styles.container}>
+      <FloatingStars
+        visible={isVerified}
+        STAR_IMAGES={STAR_IMAGES}
+        screen={'createdRoomList'}
+        starCount={2}
+      />
       <Text style={styles.title}>Live Rooms</Text>
 
       <FlatList
@@ -124,6 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0F0A0D',
     padding: 20,
+    position: 'relative',
   },
 
   title: {

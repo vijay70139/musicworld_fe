@@ -10,17 +10,27 @@ import {
 } from 'react-native';
 import { RoomContext } from '../context/RoomContext';
 import socket from '../config/socket';
+import FloatingStars from '../components/FloatingStars';
+import { AuthContext } from '../context/AuthContext';
 
 export default function AddSongScreen({ navigation }) {
   const [url, setUrl] = useState('');
   const [songTitle, setSongTitle] = useState('');
   const { roomId, fetchPlaylist, allSongs, getAllSongs } =
     useContext(RoomContext);
+  const { isVerified } = useContext(AuthContext);
+
   console.log('allSongs: ', allSongs);
 
   useEffect(() => {
     getAllSongs();
   }, []);
+
+  const STAR_IMAGES = [
+    require('../assets/images/image1.webp'),
+    require('../assets/images/NTR.jpg'),
+    require('../assets/images/NTR.jpg'),
+  ];
 
   const addToRoom = songId => {
     socket.emit('add_song_to_room', {
@@ -53,6 +63,13 @@ export default function AddSongScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <FloatingStars
+        visible={isVerified}
+        STAR_IMAGES={STAR_IMAGES}
+        screen={'addSongScreen'}
+        starCount={3}
+      />
+
       <Text style={styles.heading}>Add Song</Text>
       <TextInput
         placeholder="Song Title"

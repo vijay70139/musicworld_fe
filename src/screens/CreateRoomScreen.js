@@ -8,11 +8,17 @@ import {
   Alert,
 } from 'react-native';
 import { RoomContext } from '../context/RoomContext';
+import { AuthContext } from '../context/AuthContext';
+import FloatingStars from '../components/FloatingStars';
 
 export default function CreateRoomScreen({ navigation }) {
   const { createRoom, setUserName, userName, setRoomName, roomName } =
     useContext(RoomContext);
-
+  const { isVerified } = useContext(AuthContext);
+  const STAR_IMAGES = [
+    require('../assets/images/image1.webp'),
+    require('../assets/images/NTR.jpg'),
+  ];
   const handleCreate = () => {
     if (!roomName || !userName) {
       return Alert.alert('Required', 'Enter Room Name & Your Name');
@@ -26,6 +32,12 @@ export default function CreateRoomScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <FloatingStars
+        visible={isVerified}
+        STAR_IMAGES={STAR_IMAGES}
+        screen={'createRoomScreen'}
+        starCount={2}
+      />
       <Text style={styles.title}>Create Room</Text>
 
       {/* Username Input */}

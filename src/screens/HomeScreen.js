@@ -77,13 +77,10 @@ export default function HomeScreen({ navigation }) {
           activeOpacity={1}
           onPress={() => setShowStarModal(false)}
         >
-          <View style={styles.starModalContent}>
-            <Image
-              source={activeStarImage}
-              style={styles.starImage}
-              resizeMode="contain"
-            />
-          </View>
+          <Image
+            source={activeStarImage}
+            style={styles.starImage}
+          />
         </TouchableOpacity>
       </Modal>
     </View>
@@ -166,7 +163,8 @@ const styles = StyleSheet.create({
   },
 
   starImage: {
-    width: '100%',
-    height: '100%',
+    width: 340,
+    height: 380,
+    borderRadius: 10,
   },
 });

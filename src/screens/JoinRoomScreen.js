@@ -11,6 +11,8 @@ import axios from 'axios';
 import API from '../config/api';
 import { RoomContext } from '../context/RoomContext';
 import socket from '../config/socket';
+import FloatingStars from '../components/FloatingStars';
+import { AuthContext } from '../context/AuthContext';
 // import useRoomSocket from '../hooks/useRoomSocket';
 
 export default function JoinRoomScreen({ navigation }) {
@@ -24,10 +26,15 @@ export default function JoinRoomScreen({ navigation }) {
     setParticipants,
   } = useContext(RoomContext);
   //   useRoomSocket(setSongs, setNowPlaying, setParticipants);
+  const { isVerified } = useContext(AuthContext);
 
   const [roomCode, setRoomCode] = useState('');
   const [user, setUser] = useState('');
-
+  const STAR_IMAGES = [
+    require('../assets/images/image1.webp'),
+    require('../assets/images/NTR.jpg'),
+    require('../assets/images/NTR.jpg'),
+  ];
   const handleJoinRoom = async () => {
     if (!roomCode.trim() || !user.trim()) {
       return Alert.alert('Missing info', 'Please enter room ID & name');
@@ -70,6 +77,12 @@ export default function JoinRoomScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <FloatingStars
+        visible={isVerified}
+        STAR_IMAGES={STAR_IMAGES}
+        screen={'joinRoomScreen'}
+        starCount={2}
+      />
       <Text style={styles.title}>Join Room</Text>
 
       <TextInput

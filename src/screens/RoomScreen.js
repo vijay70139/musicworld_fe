@@ -13,6 +13,8 @@ import { RoomContext } from '../context/RoomContext';
 import axios from 'axios';
 import API from '../config/api';
 import socket from '../config/socket';
+import FloatingStars from '../components/FloatingStars';
+import { AuthContext } from '../context/AuthContext';
 
 export default function RoomScreen({ navigation }) {
   const [showParticipants, setShowParticipants] = useState(false);
@@ -32,8 +34,14 @@ export default function RoomScreen({ navigation }) {
     play,
     pause,
   } = useContext(RoomContext);
-  console.log('roomName, userName: ', roomName, userName);
+  const { isVerified } = useContext(AuthContext);
 
+  console.log('roomName, userName: ', roomName, userName);
+  const STAR_IMAGES = [
+    require('../assets/images/image1.webp'),
+    require('../assets/images/NTR.jpg'),
+    require('../assets/images/NTR.jpg'),
+  ];
   useEffect(() => {
     console.log('roomId: ', roomId);
     if (!roomId) {
@@ -60,6 +68,13 @@ export default function RoomScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <FloatingStars
+        visible={isVerified}
+        STAR_IMAGES={STAR_IMAGES}
+        screen={'roomScreen'}
+        starCount={3}
+      />
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.roomTitle}>{roomName}</Text>

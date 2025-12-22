@@ -3,9 +3,14 @@ import Video from 'react-native-video';
 import { RoomContext } from '../context/RoomContext';
 
 export default function GlobalAudioPlayer() {
-  const { nowPlaying, paused, position, setPosition } = useContext(RoomContext);
+  const { nowPlaying, paused, skipSong, position, setPosition } =
+    useContext(RoomContext);
 
   const ref = useRef(null);
+  
+  const onEnd = async () => {
+    await skipSong(); // server will update nowPlaying
+  };
 
   useEffect(() => {
     if (ref.current && position >= 0) {
@@ -24,6 +29,7 @@ export default function GlobalAudioPlayer() {
       playInBackground
       onProgress={e => setPosition(e.currentTime)}
       style={{ width: 0, height: 0 }}
+      onEnd={onEnd}
     />
   );
 }
