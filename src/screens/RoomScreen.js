@@ -144,28 +144,27 @@ export default function RoomScreen({ navigation }) {
       <Modal visible={showParticipants} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            {/* Close Button */}
-            <TouchableOpacity
-              style={styles.closeIcon}
-              onPress={() => setShowParticipants(false)}
-            >
-              <Text style={styles.modalCloseIcon}>✖</Text>
-            </TouchableOpacity>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Participants</Text>
+              <TouchableOpacity
+                style={styles.closeIcon}
+                onPress={() => setShowParticipants(false)}
+              >
+                <Text style={styles.modalCloseIcon}>✖</Text>
+              </TouchableOpacity>
+            </View>
 
-            <Text style={styles.modalTitle}>Participants</Text>
             <ScrollView style={styles.participantScroll}>
               {participants.length > 0 ? (
                 participants.map((p, index) => (
                   <View key={index} style={styles.userRow}>
-                    <Text key={index} style={styles.modalUser}>
-                      👤 {p.user}
-                      <Text
-                        style={styles.deleteIcon}
-                        onPress={() => handleRemoveParticipant(p)}
-                      >
-                        ✖
-                      </Text>
-                    </Text>
+                    <Text style={styles.modalUser}>👤 {p.user}</Text>
+
+                    <TouchableOpacity
+                      onPress={() => handleRemoveParticipant(p)}
+                    >
+                      <Text style={styles.deleteIcon}>✖</Text>
+                    </TouchableOpacity>
                   </View>
                 ))
               ) : (
@@ -356,14 +355,9 @@ const styles = StyleSheet.create({
   },
 
   modalUser: {
-    color: '#F8EDEF',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    color: '#fff',
     fontSize: 16,
-    backgroundColor: '#2A1C22',
-    width: '100%',
-    borderRadius: 12,
-    marginTop: 8,
+    flex: 1,
   },
 
   modalEmpty: {
@@ -378,16 +372,20 @@ const styles = StyleSheet.create({
   },
 
   deleteIcon: {
-    color: '#E36C7C',
+    color: '#ff4d4d',
     fontSize: 18,
-    marginLeft: 20,
+    marginLeft: 12,
   },
 
   userRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
+    justifyContent: 'space-between', // ⬅️ key line
+    backgroundColor: '#2a3342',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginBottom: 8,
   },
 
   songButton: {
@@ -395,5 +393,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 90,
+    marginLeft: 100,
   },
 });

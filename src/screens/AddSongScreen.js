@@ -18,14 +18,20 @@ export default function AddSongScreen({ navigation }) {
   const [url, setUrl] = useState('');
   const [songTitle, setSongTitle] = useState('');
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [selectedSongs, setSelectedSongs] = useState([]);
+
   const { roomId, fetchPlaylist, allSongs, getAllSongs } =
     useContext(RoomContext);
   const { isVerified } = useContext(AuthContext);
 
-
   useEffect(() => {
     fetchAllSongs();
   }, []);
+
+  const filteredSongs = allSongs.filter(song =>
+    song.title.toLowerCase().includes(search.toLowerCase()),
+  );
 
   const fetchAllSongs = async () => {
     try {
@@ -38,16 +44,41 @@ export default function AddSongScreen({ navigation }) {
     }
   };
 
+  const toggleSelectSong = songId => {
+    setSelectedSongs(prev =>
+      prev.includes(songId)
+        ? prev.filter(id => id !== songId)
+        : [...prev, songId],
+    );
+  };
+
+  const addMultipleSongsToRoom = () => {
+    console.log(selectedSongs, 'selectedSongs');
+
+    if (selectedSongs.length === 0) {
+      Alert.alert('No songs selected', 'Select at least one song');
+      return;
+    }
+
+    socket.emit('add_multiple_songs_to_room', {
+      roomId,
+      songIds: selectedSongs,
+    });
+
+    setSelectedSongs([]);
+    navigation.goBack();
+  };
+
   const STAR_IMAGES = [
     require('../assets/images/image1.webp'),
     require('../assets/images/NTR.jpg'),
     require('../assets/images/NTR.jpg'),
   ];
 
-  const addToRoom = songId => {
+  const addToRoom = () => {
     socket.emit('add_song_to_room', {
       roomId,
-      songId,
+      songId: selectedSongs[0],
     });
     navigation.goBack();
   };
@@ -111,6 +142,14 @@ export default function AddSongScreen({ navigation }) {
           Select from existing songs:
         </Text>
       )}
+      <TextInput
+        placeholder="Search songs..."
+        placeholderTextColor="#9A7C86"
+        value={search}
+        onChangeText={setSearch}
+        style={styles.searchInput}
+      />
+
       {loading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color="#E6B7C6" />
@@ -125,34 +164,50 @@ export default function AddSongScreen({ navigation }) {
           <FlatList
             style={styles.list}
             contentContainerStyle={styles.listContent}
-            data={allSongs}
+            data={filteredSongs}
             keyExtractor={item => item._id}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.songRow}
-                activeOpacity={0.7}
-                onPress={() => addToRoom(item._id)}
-              >
-                <View style={styles.songInfo}>
-                  <Text style={styles.songTitle} numberOfLines={1}>
-                    {item.title}
-                  </Text>
-                  {item.duration ? (
-                    <Text style={styles.songDuration}>
-                      {Math.floor(item.duration / 60)}:
-                      {(item.duration % 60).toString().padStart(2, '0')}
-                    </Text>
-                  ) : null}
-                </View>
+            renderItem={({ item }) => {
+              const selected = selectedSongs.includes(item._id);
 
-                <Text style={styles.addIcon}>➕</Text>
-              </TouchableOpacity>
-            )}
+              return (
+                <TouchableOpacity
+                  style={[styles.songRow, selected && styles.songRowSelected]}
+                  activeOpacity={0.8}
+                  onPress={() => toggleSelectSong(item._id)}
+                >
+                  <View style={styles.songInfo}>
+                    <Text style={styles.songTitle} numberOfLines={1}>
+                      {item.title}
+                    </Text>
+                    {item.duration && (
+                      <Text style={styles.songDuration}>
+                        {Math.floor(item.duration / 60)}:
+                        {(item.duration % 60).toString().padStart(2, '0')}
+                      </Text>
+                    )}
+                  </View>
+
+                  <Text style={styles.addIcon}>{selected ? '✔️' : '➕'}</Text>
+                </TouchableOpacity>
+              );
+            }}
             ListEmptyComponent={
               <Text style={styles.emptyText}>No songs available</Text>
             }
           />
         )
+      )}
+      {selectedSongs.length > 0 && (
+        <TouchableOpacity
+          style={styles.addSelectedBtn}
+          onPress={
+            selectedSongs.length === 1 ? addToRoom : addMultipleSongsToRoom
+          }
+        >
+          <Text style={styles.addSelectedText}>
+            Add {selectedSongs.length} song(s)
+          </Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -271,5 +326,41 @@ const styles = StyleSheet.create({
   emptyText: {
     color: '#9CA3AF',
     fontSize: 16,
+  },
+
+  searchInput: {
+    backgroundColor: '#1C1216',
+    borderRadius: 14,
+    padding: 14,
+    color: '#F8EDEF',
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#2A1C22',
+  },
+
+  songRowSelected: {
+    borderColor: '#E6B7C1',
+    backgroundColor: '#2A1C22',
+  },
+
+  addSelectedBtn: {
+    backgroundColor: '#E6B7C1',
+    paddingVertical: 16,
+    borderRadius: 18,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+    shadowColor: '#E6B7C1',
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
+  },
+
+  addSelectedText: {
+    color: '#0F0A0D',
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.4,
   },
 });

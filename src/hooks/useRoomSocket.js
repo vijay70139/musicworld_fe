@@ -65,6 +65,9 @@ const useRoomSocket = (
       setNowPlaying(state.nowPlaying || null);
       setParticipants(state.participants || []);
     });
+    socket.on('songs_added_result', ({ addedCount, skippedCount }) => {
+      Alert.alert(`🎶 Added: ${addedCount}, Skipped: ${skippedCount}`);
+    });
 
     socket.on('error', err => {
       if (err.type === 'SONG_ALREADY_IN_ROOM') {
@@ -89,6 +92,7 @@ const useRoomSocket = (
       // socket.off('seek'); // ✅ FIXED
       socket.off('room_state');
       socket.off('error');
+      socket.off('songs_added_result');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
