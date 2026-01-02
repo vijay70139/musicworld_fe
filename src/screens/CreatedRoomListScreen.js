@@ -6,6 +6,7 @@ import {
   FlatList,
   StyleSheet,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
 import API from '../config/api';
@@ -17,6 +18,7 @@ import FloatingStars from '../components/FloatingStars';
 
 export default function CreatedRoomListScreen({ navigation }) {
   const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedRoom, setSelectedRoom] = useState(null);
   // const { joinRoom, userName } = useContext(RoomContext);
   const [copied, setCopied] = useState(false);
@@ -24,10 +26,16 @@ export default function CreatedRoomListScreen({ navigation }) {
 
   const fetchRooms = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.get(API.GET_ROOMS);
-      setRooms(res.data.rooms || []);
+      if (res.data.success) {
+        setRooms(res.data.rooms || []);
+      }
     } catch (err) {
-      console.log('Error fetching rooms:', err);
+      console.log('Fetch rooms error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,34 +67,45 @@ export default function CreatedRoomListScreen({ navigation }) {
         starCount={2}
       />
       <Text style={styles.title}>Live Rooms</Text>
+      {loading ? (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#E6B7C6" />
+          <Text style={styles.loaderText}>Loading rooms...</Text>
+        </View>
+      ) : !loading && rooms.length === 0 ? (
+        <View style={styles.loaderContainer}>
+          <Text style={styles.emptyText}>No live rooms yet ✨</Text>
+        </View>
+      ) : (
+        rooms.length > 0 && (
+          <FlatList
+            data={rooms}
+            keyExtractor={item => item._id}
+            refreshing={false}
+            onRefresh={fetchRooms}
+            renderItem={({ item }) => (
+              <View style={styles.roomCard}>
+                <TouchableOpacity
+                  style={styles.roomInfo}
+                  // onPress={() => handleJoin(item)}
+                >
+                  <Text style={styles.roomName}>{item.name}</Text>
+                  <Text style={styles.roomUsers}>
+                    👥 {item.participants?.length || 0} participants
+                  </Text>
+                </TouchableOpacity>
 
-      <FlatList
-        data={rooms}
-        keyExtractor={item => item._id}
-        refreshing={false}
-        onRefresh={fetchRooms}
-        renderItem={({ item }) => (
-          <View style={styles.roomCard}>
-            <TouchableOpacity
-              style={styles.roomInfo}
-              // onPress={() => handleJoin(item)}
-            >
-              <Text style={styles.roomName}>{item.name}</Text>
-              <Text style={styles.roomUsers}>
-                👥 {item.participants?.length || 0} participants
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.inviteBtn}
-              onPress={() => setSelectedRoom(item)}
-            >
-              <Text style={styles.inviteBtnIcon}>📩</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-
+                <TouchableOpacity
+                  style={styles.inviteBtn}
+                  onPress={() => setSelectedRoom(item)}
+                >
+                  <Text style={styles.inviteBtnIcon}>📩</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        )
+      )}
       <TouchableOpacity
         style={styles.newRoomBtn}
         onPress={() => navigation.navigate('CreateRoom')}
@@ -190,6 +209,11 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
     marginTop: 15,
+    bottom: 35,
+    position: 'absolute',
+    width: '100%',
+    alignSelf: 'center',
+    shadowColor: '#E6B7C1',
   },
 
   newRoomText: {
@@ -262,5 +286,26 @@ const styles = StyleSheet.create({
     color: '#0F0A0D',
     fontSize: 16,
     fontWeight: '700',
+  },
+
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0b0f15',
+  },
+
+  loaderText: {
+    marginTop: 12,
+    color: '#E6B7C6', // rose gold
+    fontSize: 14,
+    letterSpacing: 0.5,
+  },
+
+  emptyText: {
+    color: '#9CA3AF',
+    fontSize: 16,
+    marginTop: 50,
+    textAlign: 'center',
   },
 });

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import { RoomContext } from '../context/RoomContext';
 import socket from '../config/socket';
@@ -16,15 +17,26 @@ import { AuthContext } from '../context/AuthContext';
 export default function AddSongScreen({ navigation }) {
   const [url, setUrl] = useState('');
   const [songTitle, setSongTitle] = useState('');
+  const [loading, setLoading] = useState(true);
   const { roomId, fetchPlaylist, allSongs, getAllSongs } =
     useContext(RoomContext);
   const { isVerified } = useContext(AuthContext);
 
-  console.log('allSongs: ', allSongs);
 
   useEffect(() => {
-    getAllSongs();
+    fetchAllSongs();
   }, []);
+
+  const fetchAllSongs = async () => {
+    try {
+      setLoading(true);
+      await getAllSongs(); // from RoomContext
+    } catch (e) {
+      console.log('fetchAllSongs error', e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const STAR_IMAGES = [
     require('../assets/images/image1.webp'),
@@ -96,40 +108,51 @@ export default function AddSongScreen({ navigation }) {
       )}
       {allSongs.length > 0 && (
         <Text style={{ color: '#fff', marginTop: 20, marginBottom: 10 }}>
-          select from existing songs:
+          Select from existing songs:
         </Text>
       )}
-      {allSongs.length > 0 && (
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.listContent}
-          data={allSongs}
-          keyExtractor={item => item._id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.songRow}
-              activeOpacity={0.7}
-              onPress={() => addToRoom(item._id)}
-            >
-              <View style={styles.songInfo}>
-                <Text style={styles.songTitle} numberOfLines={1}>
-                  {item.title}
-                </Text>
-                {item.duration ? (
-                  <Text style={styles.songDuration}>
-                    {Math.floor(item.duration / 60)}:
-                    {(item.duration % 60).toString().padStart(2, '0')}
+      {loading ? (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#E6B7C6" />
+          <Text style={styles.loaderText}>Loading songs...</Text>
+        </View>
+      ) : !loading && allSongs.length === 0 ? (
+        <View style={styles.loaderContainer}>
+          <Text style={styles.emptyText}>No songs available 🎵</Text>
+        </View>
+      ) : (
+        allSongs.length > 0 && (
+          <FlatList
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            data={allSongs}
+            keyExtractor={item => item._id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.songRow}
+                activeOpacity={0.7}
+                onPress={() => addToRoom(item._id)}
+              >
+                <View style={styles.songInfo}>
+                  <Text style={styles.songTitle} numberOfLines={1}>
+                    {item.title}
                   </Text>
-                ) : null}
-              </View>
+                  {item.duration ? (
+                    <Text style={styles.songDuration}>
+                      {Math.floor(item.duration / 60)}:
+                      {(item.duration % 60).toString().padStart(2, '0')}
+                    </Text>
+                  ) : null}
+                </View>
 
-              <Text style={styles.addIcon}>➕</Text>
-            </TouchableOpacity>
-          )}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>No songs available</Text>
-          }
-        />
+                <Text style={styles.addIcon}>➕</Text>
+              </TouchableOpacity>
+            )}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>No songs available</Text>
+            }
+          />
+        )
       )}
     </View>
   );
@@ -229,6 +252,24 @@ const styles = StyleSheet.create({
     color: '#7E646C',
     textAlign: 'center',
     marginTop: 40,
+    fontSize: 16,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#020214',
+  },
+
+  loaderText: {
+    marginTop: 12,
+    color: '#E6B7C6', // rose gold
+    fontSize: 14,
+    letterSpacing: 0.5,
+  },
+
+  emptyText: {
+    color: '#9CA3AF',
     fontSize: 16,
   },
 });

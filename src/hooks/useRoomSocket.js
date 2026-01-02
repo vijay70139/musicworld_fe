@@ -60,7 +60,7 @@ const useRoomSocket = (
     // });
 
     socket.on('room_state', state => {
-      console.log("state: ", state);
+      // console.log("state: ", state);
       setSongs(state.songs || []);
       setNowPlaying(state.nowPlaying || null);
       setParticipants(state.participants || []);

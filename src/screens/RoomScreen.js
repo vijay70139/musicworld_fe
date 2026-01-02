@@ -36,7 +36,7 @@ export default function RoomScreen({ navigation }) {
   } = useContext(RoomContext);
   const { isVerified } = useContext(AuthContext);
 
-  console.log('roomName, userName: ', roomName, userName);
+  // console.log('roomName, userName: ', roomName, userName);
   const STAR_IMAGES = [
     require('../assets/images/image1.webp'),
     require('../assets/images/NTR.jpg'),

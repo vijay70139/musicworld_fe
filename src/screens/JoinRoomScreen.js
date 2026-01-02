@@ -27,7 +27,7 @@ export default function JoinRoomScreen({ navigation }) {
   } = useContext(RoomContext);
   //   useRoomSocket(setSongs, setNowPlaying, setParticipants);
   const { isVerified } = useContext(AuthContext);
-
+  const [loading, setLoading] = useState(false);
   const [roomCode, setRoomCode] = useState('');
   const [user, setUser] = useState('');
   const STAR_IMAGES = [
@@ -40,6 +40,7 @@ export default function JoinRoomScreen({ navigation }) {
       return Alert.alert('Missing info', 'Please enter room ID & name');
     }
     console.log(roomCode, user);
+    setLoading(true);
     try {
       // 1️⃣ Verify room exists (REST)
       const exists = await axios.get(API.CHECK_ROOM_EXISTS(roomCode));
@@ -72,6 +73,8 @@ export default function JoinRoomScreen({ navigation }) {
     } catch (err) {
       console.log(err);
       Alert.alert('Error', 'Failed to join room');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,7 +106,7 @@ export default function JoinRoomScreen({ navigation }) {
       />
 
       <TouchableOpacity style={styles.button} onPress={handleJoinRoom}>
-        <Text style={styles.btnText}>Join</Text>
+        <Text style={styles.btnText}>{loading ? 'Joining...' : 'Join'}</Text>
       </TouchableOpacity>
     </View>
   );
