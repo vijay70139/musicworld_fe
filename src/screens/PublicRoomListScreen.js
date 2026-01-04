@@ -19,7 +19,7 @@ export default function PublicRoomListScreen({ navigation }) {
       const res = await axios.get(API.GET_ROOMS);
       setRooms(res.data.rooms || []);
     } catch (err) {
-      console.log('Error fetching rooms:', err);
+      console.log('Error fetching lounges:', err);
     }
   };
 
@@ -34,7 +34,7 @@ export default function PublicRoomListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Rooms Exists</Text>
+      <Text style={styles.title}>Lounges Exists</Text>
 
       <FlatList
         data={rooms}
@@ -58,7 +58,7 @@ export default function PublicRoomListScreen({ navigation }) {
         style={styles.newRoomBtn}
         onPress={() => navigation.navigate('JoinRoom')}
       >
-        <Text style={styles.btnText}>+ Join New Room</Text>
+        <Text style={styles.btnText}>+ Join New Lounge</Text>
       </TouchableOpacity>
     </View>
   );

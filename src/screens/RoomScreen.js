@@ -87,7 +87,7 @@ export default function RoomScreen({ navigation }) {
           style={styles.nowPlayingBox}
           // onPress={() => navigation.navigate('MusicPlayer')}
         >
-          <Text style={styles.nowTitle}>🎶 Now Playing:</Text>
+          <Text style={styles.nowTitle}>🎶 Now Streaming:</Text>
           <TouchableOpacity
             style={styles.songButton}
             onPress={paused ? play : pause}
@@ -139,7 +139,7 @@ export default function RoomScreen({ navigation }) {
 
       {/* Leave Room */}
       <TouchableOpacity style={styles.leaveBtn} onPress={leaveRoom}>
-        <Text style={styles.btnText}>🚪 Leave Room</Text>
+        <Text style={styles.btnText}>🚪 Exit</Text>
       </TouchableOpacity>
       <Modal visible={showParticipants} transparent animationType="fade">
         <View style={styles.modalOverlay}>

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Modal,
   ActivityIndicator,
+  Share,
 } from 'react-native';
 import axios from 'axios';
 import API from '../config/api';
@@ -33,7 +34,7 @@ export default function CreatedRoomListScreen({ navigation }) {
         setRooms(res.data.rooms || []);
       }
     } catch (err) {
-      console.log('Fetch rooms error:', err);
+      console.log('Fetch lounges error:', err);
     } finally {
       setLoading(false);
     }
@@ -52,12 +53,24 @@ export default function CreatedRoomListScreen({ navigation }) {
   //   navigation.navigate('Room');
   // };
 
+  const shareRoom = async room => {
+    try {
+      const message = `🎵 Join my Music Lounge!\n\nLounge Name: ${room.name}\nLounge ID: ${room._id}\n\nOpen the app → Enter Lounge → Enter this Lounge ID`;
+
+      await Share.share({
+        message,
+      });
+    } catch (error) {
+      console.log('Share error:', error.message);
+    }
+  };
+
   const copyRoomId = () => {
     Clipboard.setString(selectedRoom._id);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  console.log(selectedRoom, 'selectedRoom');
+  // console.log(selectedRoom, 'selectedRoom');
   return (
     <View style={styles.container}>
       <FloatingStars
@@ -66,15 +79,15 @@ export default function CreatedRoomListScreen({ navigation }) {
         screen={'createdRoomList'}
         starCount={2}
       />
-      <Text style={styles.title}>Live Rooms</Text>
+      <Text style={styles.title}>Live Now</Text>
       {loading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color="#E6B7C6" />
-          <Text style={styles.loaderText}>Loading rooms...</Text>
+          <Text style={styles.loaderText}>Loading Lounges...</Text>
         </View>
       ) : !loading && rooms.length === 0 ? (
         <View style={styles.loaderContainer}>
-          <Text style={styles.emptyText}>No live rooms yet ✨</Text>
+          <Text style={styles.emptyText}>No live lounges yet ✨</Text>
         </View>
       ) : (
         rooms.length > 0 && (
@@ -133,15 +146,20 @@ export default function CreatedRoomListScreen({ navigation }) {
 
             <Text style={styles.modalTitle}>Invite Friend</Text>
 
-            <Text style={styles.modalLabel}>Room Name</Text>
+            <Text style={styles.modalLabel}>Lounge Name</Text>
             <Text style={styles.modalValue}>{selectedRoom?.name}</Text>
 
-            <Text style={styles.modalLabel}>Room ID</Text>
+            <Text style={styles.modalLabel}>Lounge ID</Text>
             <Text style={styles.modalValue}>{selectedRoom?._id}</Text>
 
-            <TouchableOpacity style={styles.copyBtn} onPress={copyRoomId}>
+            {/* <TouchableOpacity style={styles.copyBtn} onPress={copyRoomId}> */}
+            <TouchableOpacity
+              style={styles.copyBtn}
+              onPress={() => shareRoom(selectedRoom)}
+            >
               <Text style={styles.copyText}>
-                {copied ? 'Copied ✓' : '📋 Copy Room ID'}
+                {/* {copied ? 'Copied ✓' : '📋 Copy Room ID'} */}
+                📤 Share
               </Text>
             </TouchableOpacity>
           </View>

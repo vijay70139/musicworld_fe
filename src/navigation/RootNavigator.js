@@ -23,37 +23,37 @@ export default function RootNavigator() {
           headerStyle: { backgroundColor: '#020214' },
           headerTintColor: '#fff',
           headerRight: () => <HomeButton />,
-          title: 'Music World',
+          title: 'MiniTunes',
         }}
       >
         <Stack.Screen name="VerifyUser" component={VerifyUserScreen} />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Music World' }}
+          options={{ title: 'MiniTunes' }}
         />
 
         <Stack.Screen
           name="CreateRoom"
           component={CreateRoomScreen}
-          options={{ title: 'Create Room' }}
+          options={{ title: 'Host a Lounge' }}
         />
         <Stack.Screen
           name="CreatedRoomList"
           component={CreatedRoomListScreen}
-          options={{ title: 'Create Room List' }}
+          options={{ title: 'Lounge List' }}
         />
 
         <Stack.Screen
           name="JoinRoom"
           component={JoinRoomScreen}
-          options={{ title: 'Join Room' }}
+          options={{ title: 'Join Lounge' }}
         />
 
         <Stack.Screen
           name="Room"
           component={RoomScreen}
-          options={{ title: 'Music Room' }}
+          options={{ title: 'The Lounge' }}
         />
 
         <Stack.Screen

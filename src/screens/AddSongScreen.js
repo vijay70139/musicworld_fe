@@ -113,7 +113,7 @@ export default function AddSongScreen({ navigation }) {
         starCount={3}
       />
 
-      <Text style={styles.heading}>Add Song</Text>
+      {/* <Text style={styles.heading}>Add Song</Text> */}
       <TextInput
         placeholder="Song Title"
         placeholderTextColor="#999"
@@ -122,7 +122,7 @@ export default function AddSongScreen({ navigation }) {
         onChangeText={setSongTitle}
       />
       <TextInput
-        placeholder="Paste YouTube/MP3 Link"
+        placeholder="Paste Song/MP3 Link"
         placeholderTextColor="#999"
         style={styles.input}
         value={url}
@@ -132,11 +132,7 @@ export default function AddSongScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleAddSong}>
         <Text style={styles.buttonText}>Add to Playlist</Text>
       </TouchableOpacity>
-      {allSongs.length === 0 && (
-        <Text style={{ color: '#fff', marginTop: 20 }}>
-          No songs available to add.
-        </Text>
-      )}
+  
       {allSongs.length > 0 && (
         <Text style={{ color: '#fff', marginTop: 20, marginBottom: 10 }}>
           Select from existing songs:

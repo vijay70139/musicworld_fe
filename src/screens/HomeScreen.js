@@ -17,20 +17,20 @@ export default function HomeScreen({ navigation }) {
   const { isVerified, userName } = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Music Room</Text>
+      <Text style={styles.title}>The Lounge</Text>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('CreatedRoomList')}
       >
-        <Text style={styles.btnText}>Create Room</Text>
+        <Text style={styles.btnText}>Host a Lounge</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('JoinRoom')}
       >
-        <Text style={styles.btnText}>Join Room</Text>
+        <Text style={styles.btnText}>Enter Lounge</Text>
       </TouchableOpacity>
       {/* Decorative Stars */}
       {isVerified && (

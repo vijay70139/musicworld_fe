@@ -100,7 +100,7 @@ export default function MusicPlayerScreen({ navigation }) {
   if (!nowPlaying) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.infoText}>No track playing</Text>
+        <Text style={styles.infoText}>No track streaming</Text>
       </SafeAreaView>
     );
   }
@@ -122,7 +122,7 @@ export default function MusicPlayerScreen({ navigation }) {
       {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.roomName}>{roomName}</Text>
-        <Text style={styles.roomSubtitle}>Now playing</Text>
+        <Text style={styles.roomSubtitle}>Now streaming</Text>
       </View>
 
       {/* ARTWORK */}

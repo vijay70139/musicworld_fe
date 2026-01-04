@@ -37,7 +37,7 @@ export default function JoinRoomScreen({ navigation }) {
   ];
   const handleJoinRoom = async () => {
     if (!roomCode.trim() || !user.trim()) {
-      return Alert.alert('Missing info', 'Please enter room ID & name');
+      return Alert.alert('Missing info', 'Please enter Lounge ID & name');
     }
     console.log(roomCode, user);
     setLoading(true);
@@ -45,7 +45,7 @@ export default function JoinRoomScreen({ navigation }) {
       // 1️⃣ Verify room exists (REST)
       const exists = await axios.get(API.CHECK_ROOM_EXISTS(roomCode));
       if (!exists.data.exists) {
-        return Alert.alert('Room Not Found', 'Enter valid Room ID');
+        return Alert.alert('Lounge Not Found', 'Enter valid Lounge ID');
       }
 
       // 2️⃣ Join room via SOCKET ONLY
@@ -68,11 +68,11 @@ export default function JoinRoomScreen({ navigation }) {
 
       // Optional: error handling
       socket.once('error', err => {
-        Alert.alert('Join Failed', err.message || 'Unable to join room');
+        Alert.alert('Join Failed', err.message || 'Unable to join Lounge');
       });
     } catch (err) {
       console.log(err);
-      Alert.alert('Error', 'Failed to join room');
+      Alert.alert('Error', 'Failed to join Lounge. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ export default function JoinRoomScreen({ navigation }) {
         screen={'joinRoomScreen'}
         starCount={2}
       />
-      <Text style={styles.title}>Join Room</Text>
+      {/* <Text style={styles.title}>Lounge</Text> */}
 
       <TextInput
         style={styles.input}
@@ -98,7 +98,7 @@ export default function JoinRoomScreen({ navigation }) {
 
       <TextInput
         style={styles.input}
-        placeholder="Enter Room ID"
+        placeholder="Enter Lounge ID"
         placeholderTextColor="#aaa"
         autoCapitalize="none"
         value={roomCode}

@@ -33,7 +33,7 @@ export const RoomProvider = ({ children }) => {
     if (!roomId) return;
 
     const handleReconnect = () => {
-      console.log('🔁 Re-syncing room:', roomId);
+      console.log('🔁 Re-syncing Lounge:', roomId);
       socket.emit('sync_request', { roomId });
     };
 
@@ -111,18 +111,14 @@ export const RoomProvider = ({ children }) => {
       setRoomName(room.name);
       setUserName(user);
 
-      Alert.alert(
-        'Room Created 🎉',
-        `Room "${room.name}" created successfully!`,
-        [
-          {
-            text: 'OK',
-            onPress: () => onSuccessNavigate(), // Navigate only after alert click
-          },
-        ],
-      );
+      Alert.alert(`Lounge "${room.name}" created successfully! 🎉`, [
+        {
+          text: 'OK',
+          onPress: () => onSuccessNavigate(), // Navigate only after alert click
+        },
+      ]);
     } catch (error) {
-      Alert.alert('Error', 'Failed to create room');
+      Alert.alert('Error', 'Failed to create lounge. Please try again.');
     }
   };
 

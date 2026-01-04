@@ -12,7 +12,7 @@ const useRoomSocket = (
   useEffect(() => {
     if (!roomId) return;
 
-    console.log('Socket listeners active for room:', roomId);
+    console.log('Socket listeners active for lounge:', roomId);
 
     // --------------------------
     // PLAYLIST UPDATE

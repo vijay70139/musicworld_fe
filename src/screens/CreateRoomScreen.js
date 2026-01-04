@@ -21,7 +21,7 @@ export default function CreateRoomScreen({ navigation }) {
   ];
   const handleCreate = () => {
     if (!roomName || !userName) {
-      return Alert.alert('Required', 'Enter Room Name & Your Name');
+      return Alert.alert('Required', 'Enter Lounge Name & Your Name');
     }
     createRoom(roomName, userName, () => {
       navigation.navigate('CreatedRoomList');
@@ -38,7 +38,7 @@ export default function CreateRoomScreen({ navigation }) {
         screen={'createRoomScreen'}
         starCount={2}
       />
-      <Text style={styles.title}>Create Room</Text>
+      {/* <Text style={styles.title}>Host a Lounge</Text> */}
 
       {/* Username Input */}
       <TextInput
@@ -52,14 +52,14 @@ export default function CreateRoomScreen({ navigation }) {
       {/* Room Name Input */}
       <TextInput
         style={styles.input}
-        placeholder="Enter Room Name"
+        placeholder="Enter Lounge Name"
         placeholderTextColor="#777"
         value={roomName}
         onChangeText={setRoomName}
       />
 
       <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
-        <Text style={styles.btnText}>Create Room</Text>
+        <Text style={styles.btnText}>Host</Text>
       </TouchableOpacity>
     </View>
   );
