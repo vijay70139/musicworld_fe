@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 
@@ -14,6 +15,10 @@ export default function VerifyUserScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../assets/images/app_icon.png')}
+        style={styles.appIcon}
+      />
       <Text style={styles.title}>Welcome 🎧</Text>
       <Text style={styles.subtitle}>Verify to unlock special features</Text>
 
@@ -30,7 +35,7 @@ export default function VerifyUserScreen({ navigation }) {
         onPress={async () => {
           if (!name.trim()) return;
           const isVerified = await verifyUser(name.trim());
-          console.log("isVerified: ", isVerified);
+          console.log('isVerified: ', isVerified);
           if (isVerified) {
             navigation.replace('Home');
           }
@@ -91,5 +96,12 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 20,
     textAlign: 'center',
+  },
+  appIcon: {
+    width: 160,
+    height: 160,
+    alignSelf: 'center',
+    borderRadius: 100,
+    marginBottom: 10
   },
 });

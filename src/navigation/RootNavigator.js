@@ -23,14 +23,14 @@ export default function RootNavigator() {
           headerStyle: { backgroundColor: '#020214' },
           headerTintColor: '#fff',
           headerRight: () => <HomeButton />,
-          title: 'MiniTunes',
+          title: 'Mini Tunes',
         }}
       >
         <Stack.Screen name="VerifyUser" component={VerifyUserScreen} />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'MiniTunes' }}
+          options={{ title: 'Mini Tunes' }}
         />
 
         <Stack.Screen
