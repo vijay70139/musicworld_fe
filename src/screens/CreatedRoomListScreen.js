@@ -57,8 +57,12 @@ export default function CreatedRoomListScreen({ navigation }) {
     try {
       const message = `🎵 Join my Music Lounge!\n\nLounge Name: ${room.name}\nLounge ID: ${room._id}\n\nOpen the app → Enter Lounge → Enter this Lounge ID`;
 
+      const roomLink = `minitunes://join?roomId=${room._id}`;
+
       await Share.share({
+        title: 'Invite to Mini Tunes 🎵',
         message,
+        url: roomLink, // ✅ clickable
       });
     } catch (error) {
       console.log('Share error:', error.message);
