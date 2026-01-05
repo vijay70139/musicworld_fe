@@ -12,6 +12,7 @@ import { AuthContext } from '../context/AuthContext';
 export default function VerifyUserScreen({ navigation }) {
   const { verifyUser, skipVerify } = useContext(AuthContext);
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -33,15 +34,26 @@ export default function VerifyUserScreen({ navigation }) {
       <TouchableOpacity
         style={styles.verifyBtn}
         onPress={async () => {
-          if (!name.trim()) return;
-          const isVerified = await verifyUser(name.trim());
-          console.log('isVerified: ', isVerified);
-          if (isVerified) {
-            navigation.replace('Home');
+          setIsLoading(true);
+          try {
+            if (!name.trim()) return;
+            const isVerified = await verifyUser(name.trim());
+            console.log('isVerified: ', isVerified);
+            if (isVerified) {
+              navigation.replace('Home');
+            }
+          } catch (error) {
+            console.error('Verification error: ', error);
+          } finally {
+            setIsLoading(false);
           }
         }}
       >
-        <Text style={styles.btnText}>Verify</Text>
+        {isLoading ? (
+          <Text style={styles.btnText}>Verifying...</Text>
+        ) : (
+          <Text style={styles.btnText}>Verify</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -102,6 +114,6 @@ const styles = StyleSheet.create({
     height: 160,
     alignSelf: 'center',
     borderRadius: 100,
-    marginBottom: 10
+    marginBottom: 10,
   },
 });
