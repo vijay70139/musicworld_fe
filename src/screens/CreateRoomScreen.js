@@ -16,8 +16,8 @@ export default function CreateRoomScreen({ navigation }) {
     useContext(RoomContext);
   const { isVerified } = useContext(AuthContext);
   const STAR_IMAGES = [
-    require('../assets/images/image1.webp'),
-    require('../assets/images/NTR.jpg'),
+    require('../assets/images/image3.webp'),
+    require('../assets/images/image2.webp'),
   ];
   const handleCreate = () => {
     if (!roomName || !userName) {

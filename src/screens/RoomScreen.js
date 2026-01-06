@@ -39,8 +39,8 @@ export default function RoomScreen({ navigation }) {
   // console.log('roomName, userName: ', roomName, userName);
   const STAR_IMAGES = [
     require('../assets/images/image1.webp'),
-    require('../assets/images/NTR.jpg'),
-    require('../assets/images/NTR.jpg'),
+    require('../assets/images/image2.webp'),
+    require('../assets/images/image3.webp'),
   ];
   useEffect(() => {
     console.log('roomId: ', roomId);

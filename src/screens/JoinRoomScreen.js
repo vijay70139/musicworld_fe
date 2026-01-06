@@ -31,9 +31,8 @@ export default function JoinRoomScreen({ navigation }) {
   const [roomCode, setRoomCode] = useState('');
   const [user, setUser] = useState('');
   const STAR_IMAGES = [
-    require('../assets/images/image1.webp'),
-    require('../assets/images/NTR.jpg'),
-    require('../assets/images/NTR.jpg'),
+    require('../assets/images/image7.webp'),
+    require('../assets/images/image2.webp'),
   ];
   const handleJoinRoom = async () => {
     if (!roomCode.trim() || !user.trim()) {

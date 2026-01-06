@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
         <>
           <TouchableOpacity
             onPress={() => {
-              setActiveStarImage(require('../assets/images/NTR.jpg'));
+              setActiveStarImage(require('../assets/images/image6.webp'));
               setShowStarModal(true);
             }}
             style={styles.starTopLeft}
@@ -57,7 +57,7 @@ export default function HomeScreen({ navigation }) {
 
           <TouchableOpacity
             onPress={() => {
-              setActiveStarImage(require('../assets/images/NTR.jpg'));
+              setActiveStarImage(require('../assets/images/image3.webp'));
               setShowStarModal(true);
             }}
             style={styles.starBottomLeft}

@@ -45,8 +45,8 @@ export default function CreatedRoomListScreen({ navigation }) {
   }, []);
 
   const STAR_IMAGES = [
-    require('../assets/images/image1.webp'),
-    require('../assets/images/NTR.jpg'),
+    require('../assets/images/image4.webp'),
+    require('../assets/images/image7.webp'),
   ];
   // const handleJoin = async room => {
   //  await joinRoom(room._id, userName);
