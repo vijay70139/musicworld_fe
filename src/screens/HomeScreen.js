@@ -47,7 +47,7 @@ export default function HomeScreen({ navigation }) {
 
           <TouchableOpacity
             onPress={() => {
-              setActiveStarImage(require('../assets/images/image1.jpg'));
+              setActiveStarImage(require('../assets/images/image1.webp'));
               setShowStarModal(true);
             }}
             style={styles.starMiddleRight}

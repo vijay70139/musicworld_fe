@@ -70,7 +70,7 @@ export default function AddSongScreen({ navigation }) {
   };
 
   const STAR_IMAGES = [
-    require('../assets/images/image1.jpg'),
+    require('../assets/images/image1.webp'),
     require('../assets/images/NTR.jpg'),
     require('../assets/images/NTR.jpg'),
   ];
