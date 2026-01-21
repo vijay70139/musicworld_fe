@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '45%',
     right: 25,
-    fontSize: 20,
+    fontSize: 22,
     color: '#C997A3',
     // opacity: 0.6,
   },

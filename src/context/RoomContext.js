@@ -111,12 +111,16 @@ export const RoomProvider = ({ children }) => {
       setRoomName(room.name);
       setUserName(user);
 
-      Alert.alert(`Lounge "${room.name}" created successfully! 🎉`, [
-        {
-          text: 'OK',
-          onPress: () => onSuccessNavigate(), // Navigate only after alert click
-        },
-      ]);
+      Alert.alert(
+        'Lounge Created 🎉',
+        `Lounge "${room.name}" created successfully!`,
+        [
+          {
+            text: 'OK',
+            onPress: () => onSuccessNavigate(), // Navigate only after alert click
+          },
+        ],
+      );
     } catch (error) {
       Alert.alert('Error', 'Failed to create lounge. Please try again.');
     }

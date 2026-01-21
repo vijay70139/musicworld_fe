@@ -38,7 +38,6 @@ export default function VerifyUserScreen({ navigation }) {
           try {
             if (!name.trim()) return;
             const isVerified = await verifyUser(name.trim());
-            console.log('isVerified: ', isVerified);
             if (isVerified) {
               navigation.replace('Home');
             }
@@ -49,11 +48,9 @@ export default function VerifyUserScreen({ navigation }) {
           }
         }}
       >
-        {isLoading ? (
-          <Text style={styles.btnText}>Verifying...</Text>
-        ) : (
-          <Text style={styles.btnText}>Verify</Text>
-        )}
+        <Text style={styles.btnText}>
+          {isLoading ? 'Verifying...' : 'Verify'}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -64,6 +61,11 @@ export default function VerifyUserScreen({ navigation }) {
       >
         <Text style={styles.skipText}>Skip for now</Text>
       </TouchableOpacity>
+
+      {/* ✅ Footer */}
+      <View style={styles.footerContainer}>
+        <Text style={styles.footerText}>Built by UR’s Vijay</Text>
+      </View>
     </View>
   );
 }
@@ -115,5 +117,24 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 100,
     marginBottom: 10,
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 18,
+    alignSelf: 'center',
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: 'rgba(230, 183, 193, 0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(230, 183, 193, 0.25)',
+    marginBottom: 5,
+  },
+
+  footerText: {
+    color: '#E6B7C1',
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.6,
   },
 });

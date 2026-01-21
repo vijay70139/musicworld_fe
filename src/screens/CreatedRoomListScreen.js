@@ -87,45 +87,47 @@ export default function CreatedRoomListScreen({ navigation }) {
         starCount={2}
       />
       <Text style={styles.title}>Live Now</Text>
-      {loading ? (
-        <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color="#E6B7C6" />
-          <Text style={styles.loaderText}>Loading Lounges...</Text>
-        </View>
-      ) : !loading && rooms.length === 0 ? (
-        <View style={styles.loaderContainer}>
-          <Text style={styles.emptyText}>No live lounges yet ✨</Text>
-        </View>
-      ) : (
-        rooms.length > 0 && (
-          <FlatList
-            data={rooms}
-            keyExtractor={item => item._id}
-            refreshing={false}
-            onRefresh={fetchRooms}
-            renderItem={({ item }) => (
-              <View style={styles.roomCard}>
-                <TouchableOpacity
-                  style={styles.roomInfo}
-                  // onPress={() => handleJoin(item)}
-                >
-                  <Text style={styles.roomName}>{item.name}</Text>
-                  <Text style={styles.roomUsers}>
-                    👥 {item.participants?.length || 0} participants
-                  </Text>
-                </TouchableOpacity>
+      <View style={{ marginBottom: 80, flex: 1 }}>
+        {loading ? (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color="#E6B7C6" />
+            <Text style={styles.loaderText}>Loading Lounges...</Text>
+          </View>
+        ) : !loading && rooms.length === 0 ? (
+          <View style={styles.loaderContainer}>
+            <Text style={styles.emptyText}>No live lounges yet ✨</Text>
+          </View>
+        ) : (
+          rooms.length > 0 && (
+            <FlatList
+              data={rooms}
+              keyExtractor={item => item._id}
+              refreshing={false}
+              onRefresh={fetchRooms}
+              renderItem={({ item }) => (
+                <View style={styles.roomCard}>
+                  <TouchableOpacity
+                    style={styles.roomInfo}
+                    // onPress={() => handleJoin(item)}
+                  >
+                    <Text style={styles.roomName}>{item.name}</Text>
+                    <Text style={styles.roomUsers}>
+                      👥 {item.participants?.length || 0} participants
+                    </Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={styles.inviteBtn}
-                  onPress={() => setSelectedRoom(item)}
-                >
-                  <Text style={styles.inviteBtnIcon}>📩</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        )
-      )}
+                  <TouchableOpacity
+                    style={styles.inviteBtn}
+                    onPress={() => setSelectedRoom(item)}
+                  >
+                    <Text style={styles.inviteBtnIcon}>📩</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          )
+        )}
+      </View>
       <TouchableOpacity
         style={styles.newRoomBtn}
         onPress={() => navigation.navigate('CreateRoom')}
