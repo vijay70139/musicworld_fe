@@ -70,8 +70,8 @@ export default function AddSongScreen({ navigation }) {
   };
 
   const STAR_IMAGES = [
-    require('../assets/images/image4.webp'),
-    require('../assets/images/image6.webp'),
+    require('../assets/images/Qoute5.webp'),
+    require('../assets/images/Kid3.webp'),
     require('../assets/images/image7.webp'),
   ];
 

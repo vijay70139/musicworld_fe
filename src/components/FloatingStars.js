@@ -53,7 +53,14 @@ export default function FloatingStars({ visible, STAR_IMAGES, starCount = 2 }) {
           style={styles.modalOverlay}
           onPress={() => setActiveImage(null)}
         >
-          <Image source={activeImage} style={styles.popupImage} />
+          <Image
+            source={activeImage}
+            style={{
+              width: 340,
+              height: 460,
+              borderRadius: 10,
+            }}
+          />
         </TouchableOpacity>
       </Modal>
     </>

@@ -47,7 +47,7 @@ export default function HomeScreen({ navigation }) {
 
           <TouchableOpacity
             onPress={() => {
-              setActiveStarImage(require('../assets/images/image1.webp'));
+              setActiveStarImage(require('../assets/images/Qoute1.webp'));
               setShowStarModal(true);
             }}
             style={styles.starMiddleRight}
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 
   starImage: {
     width: 340,
-    height: 380,
+    height: 460,
     borderRadius: 10,
   },
 });
