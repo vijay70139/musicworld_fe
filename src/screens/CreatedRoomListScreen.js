@@ -57,12 +57,18 @@ export default function CreatedRoomListScreen({ navigation }) {
     try {
       const roomLink = `minitunes://join?roomId=${room._id}`;
 
-      const message =
-        `🎵 Join my Music Lounge!\n\n` +
-        `Lounge Name: ${room.name}\n` +
-        `Lounge ID: ${room._id}\n\n` +
-        `👉 Tap to join directly:\n${roomLink}` +
-        `\n\nFollow these steps to join:\nOpen the app → Enter Lounge → Enter this Lounge ID`;
+      const message = `🎵 Join my Music Lounge!
+
+Lounge Name: ${room.name}
+
+🆔 Lounge ID: \`${room._id}\`
+
+👉 Tap to join directly:
+${roomLink}
+
+📋Follow these steps to join:\nOpen the app → Enter Lounge → Enter this Lounge ID
+
+See you inside 🎧`;
 
       await Share.share({
         message,
