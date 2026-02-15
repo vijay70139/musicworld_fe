@@ -42,6 +42,10 @@ export default function RoomScreen({ navigation }) {
     require('../assets/images/image4.webp'),
     require('../assets/images/Qoute4.webp'),
   ];
+  const PRE_IMAGES = [
+    require('../assets/images/Qoute7.webp'),
+    require('../assets/images/image3.webp'),
+  ];
   useEffect(() => {
     console.log('roomId: ', roomId);
     if (!roomId) {
@@ -146,6 +150,12 @@ export default function RoomScreen({ navigation }) {
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Participants</Text>
+              <FloatingStars
+                visible={isVerified}
+                STAR_IMAGES={PRE_IMAGES}
+                screen={'roomScreen'}
+                starCount={2}
+              />
               <TouchableOpacity
                 style={styles.closeIcon}
                 onPress={() => setShowParticipants(false)}
