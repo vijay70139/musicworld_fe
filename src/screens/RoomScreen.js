@@ -150,12 +150,6 @@ export default function RoomScreen({ navigation }) {
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Participants</Text>
-              <FloatingStars
-                visible={isVerified}
-                STAR_IMAGES={PRE_IMAGES}
-                screen={'roomScreen'}
-                starCount={2}
-              />
               <TouchableOpacity
                 style={styles.closeIcon}
                 onPress={() => setShowParticipants(false)}
@@ -163,7 +157,12 @@ export default function RoomScreen({ navigation }) {
                 <Text style={styles.modalCloseIcon}>✖</Text>
               </TouchableOpacity>
             </View>
-
+            <FloatingStars
+              visible={isVerified}
+              STAR_IMAGES={PRE_IMAGES}
+              screen={'roomScreen'}
+              starCount={2}
+            />
             <ScrollView style={styles.participantScroll}>
               {participants.length > 0 ? (
                 participants.map((p, index) => (
